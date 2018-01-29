@@ -11,27 +11,37 @@ import {
   Text,
   View
 } from 'react-native';
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+import firebase from 'react-native-firebase';
 
 export default class App extends Component<{}> {
+
+  constructor() {
+    super();
+    this.state = {
+      isAuthenticated: false,
+    };
+  }
+
+  componentDidMount() {
+    // firebase.auth().signOut();
+    firebase.auth().signInAnonymously()
+      .then((user) => {
+        this.setState({
+          isAuthenticated: true,
+        });
+        console.log(user.isAnonymous);
+      });
+  }
+
   render() {
+    // If the user has not authenticated
+    if (!this.state.isAuthenticated) {
+      return null;
+    }
+
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
+      <View style={ styles.container }>
+        <Text>Welcome to my awesome app!</Text>
       </View>
     );
   }
