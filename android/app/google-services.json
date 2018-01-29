@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "583727111841",
+    "firebase_url": "https://stinger-1f1f1.firebaseio.com",
+    "project_id": "stinger-1f1f1",
+    "storage_bucket": "stinger-1f1f1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:583727111841:android:a279d91a826f20ea",
+        "android_client_info": {
+          "package_name": "com.stinger"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "583727111841-q69hlkqq20m94p09h30h8gu59ecqtqvh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMUGTJORxSx28p0QjfRVcSwsQqje-EYeI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
