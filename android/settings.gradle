@@ -1,0 +1,3 @@
+rootProject.name = 'Stinger'
+
+include ':app'
