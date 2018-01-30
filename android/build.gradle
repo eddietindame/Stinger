@@ -3,6 +3,7 @@
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
         maven { url 'https://maven.google.com' }
     }
     dependencies {
@@ -14,6 +15,21 @@ buildscript {
     }
 }
 
+subprojects {
+    afterEvaluate {project ->
+        if (project.hasProperty("android")) {
+            android {
+                compileSdkVersion 26
+                buildToolsVersion '27.0.2'
+            }
+        }
+    }
+}
+
+// def versionOverrides = [
+//   "com.facebook.android:facebook-android-sdk": "4.28.0",
+// ]
+
 allprojects {
     repositories {
         mavenLocal()
@@ -23,5 +39,21 @@ allprojects {
             url "$rootDir/../node_modules/react-native/android"
         }
         maven { url 'https://maven.google.com' }
+        configurations.all {
+            // resolutionStrategy {
+            //     force 'com.facebook.android:facebook-android-sdk:4.28.0'
+            // }
+        //    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+
+        //        def overrideVersion = versionOverrides[details.requested.group + ":" + details.requested.name]
+
+        //        if (overrideVersion != null && details.requested.version != overrideVersion) {
+        //            println("********************************************************")
+        //            println("Overriding dependency ${details.requested.group}:${details.requested.name} version ${details.requested.version} --> $overrideVersion")
+        //            details.useVersion overrideVersion
+        //            println("********************************************************")
+        //        }
+        //    }
+        }
     }
 }

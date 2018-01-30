@@ -12,6 +12,7 @@ import {
   View
 } from 'react-native';
 import firebase from 'react-native-firebase';
+import Login from './components/Login';
 
 export default class App extends Component<{}> {
 
@@ -42,6 +43,7 @@ export default class App extends Component<{}> {
     return (
       <View style={ styles.container }>
         <Text>Welcome to my awesome app!</Text>
+        <Login />
       </View>
     );
   }
