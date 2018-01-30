@@ -12,6 +12,8 @@ import {
   View
 } from 'react-native';
 import firebase from 'react-native-firebase';
+import { AccessToken, LoginManager } from 'react-native-fbsdk';
+import facebookLogin from './modules/FacebookLogin';
 import Login from './components/Login';
 
 export default class App extends Component<{}> {
@@ -24,26 +26,27 @@ export default class App extends Component<{}> {
   }
 
   componentDidMount() {
-    // firebase.auth().signOut();
-    firebase.auth().signInAnonymously()
-      .then((user) => {
-        this.setState({
-          isAuthenticated: true,
-        });
-        console.log(user.isAnonymous);
-      });
+    firebase.auth().signOut();
+    // firebase.auth().signInAnonymously()
+    //   .then((user) => {
+    //     this.setState({
+    //       isAuthenticated: true,
+    //     });
+    //     console.log(user.isAnonymous);
+    //   });
   }
 
   render() {
     // If the user has not authenticated
-    if (!this.state.isAuthenticated) {
-      return null;
-    }
+    // if (!this.state.isAuthenticated) {
+    //   return null;
+    // }
 
     return (
       <View style={ styles.container }>
         <Text>Welcome to my awesome app!</Text>
         <Login />
+        <Text>{ this.state.isAuthenticated ? "authenticated" : "naat" }</Text>
       </View>
     );
   }
