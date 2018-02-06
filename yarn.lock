@@ -3755,7 +3755,7 @@ react-devtools-core@3.0.0:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
-react-native-fbsdk@facebook/react-native-fbsdk:
+"react-native-fbsdk@github:facebook/react-native-fbsdk":
   version "0.7.0"
   resolved "https://codeload.github.com/facebook/react-native-fbsdk/tar.gz/3859dc64f51199de9ffd4c28db469889009075bb"
   dependencies:
