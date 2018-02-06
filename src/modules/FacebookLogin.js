@@ -5,7 +5,7 @@ import firebase from 'react-native-firebase'
 export default facebookLogin = () => {
   return LoginManager
     .logInWithReadPermissions(['public_profile', 'email'])
-    .then((result) => {
+    .then(result => {
       if (!result.isCancelled) {
         console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`)
         // get the access token
@@ -20,12 +20,12 @@ export default facebookLogin = () => {
         return firebase.auth().signInWithCredential(credential)
       }
     })
-    .then((currentUser) => {
+    .then(currentUser => {
       if (currentUser) {
         console.info(JSON.stringify(currentUser.toJSON()))
       }
     })
-    .catch((error) => {
+    .catch(error => {
       console.log(`Login fail with error: ${error}`)
     })
 }
