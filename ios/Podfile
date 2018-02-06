@@ -9,6 +9,8 @@ target 'Stinger' do
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'StingerTests' do
     inherit! :search_paths
     # Pods for testing
