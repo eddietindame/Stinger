@@ -260,4 +260,7 @@ freeline_project_description.json
 
 # End of https://www.gitignore.io/api/reactnative
 
+# Workspace files
 .vscode/
+android/.project
+android/app/.project

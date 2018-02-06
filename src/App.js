@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
 import React, { Component } from 'react';
 import {
   Platform,
@@ -12,9 +6,8 @@ import {
   View
 } from 'react-native';
 import firebase from 'react-native-firebase';
-import { AccessToken, LoginManager } from 'react-native-fbsdk';
+import { Button } from 'react-native-elements';
 import facebookLogin from './modules/FacebookLogin';
-import Login from './components/Login';
 
 export default class App extends Component<{}> {
 
@@ -25,28 +18,17 @@ export default class App extends Component<{}> {
     };
   }
 
-  componentDidMount() {
-    firebase.auth().signOut();
-    // firebase.auth().signInAnonymously()
-    //   .then((user) => {
-    //     this.setState({
-    //       isAuthenticated: true,
-    //     });
-    //     console.log(user.isAnonymous);
-    //   });
-  }
-
   render() {
-    // If the user has not authenticated
-    // if (!this.state.isAuthenticated) {
-    //   return null;
-    // }
-
     return (
       <View style={ styles.container }>
-        <Text>Welcome to my awesome app!</Text>
-        <Login />
-        <Text>{ this.state.isAuthenticated ? "authenticated" : "naat" }</Text>
+        <Button
+          large
+          rounded
+          backgroundColor='#4252B2'
+          icon={{ name: 'facebook-f',
+                  type: 'font-awesome' }}
+          title='Log in with Facebook'
+          onPress={ facebookLogin } />
       </View>
     );
   }
@@ -57,16 +39,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
+    backgroundColor: '#FDC132'
+  }
 });
