@@ -2,15 +2,16 @@ import React from 'react';
 import { AppRegistry } from 'react-native';
 
 import { Provider } from 'react-redux';
-import configureStore from './src/configureStore';
+import { createStore } from 'redux';
 import App from './src/App';
+import reducers from './src/reducers/index';
 
-const store = configureStore;
+const store = createStore(reducers);
 
-const rnredux = () => (
+const Stinger = () => (
     <Provider store={ store }>
         <App/>
     </Provider>
-)
+);
 
-AppRegistry.registerComponent('Stinger', () => App);
+AppRegistry.registerComponent('Stinger', () => Stinger);
