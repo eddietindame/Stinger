@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  View
+  View,
+  Image,
+  Animated
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -14,7 +16,7 @@ import { loginSuccess, logoutSuccess } from '../actions/index';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: '#FDC132'
   },
@@ -32,17 +34,32 @@ class Login extends Component {
   constructor() {
     super();
 
+    this.state = {
+      slide: new Animated.ValueXY({ x: 0, y: -2000 })
+    };
+
     this.login = this.login.bind(this);
     this.logout = this.logout.bind(this);
+
+    this.slideIn = Animated.spring(
+      this.state.slide,
+      {
+        toValue: 2
+      }
+    );
   }
 
   componentWillMount() {
     // Checks if user was previously signed in
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.props.loginSuccess(user);
+        // this.props.loginSuccess(user);
       }
     });
+  }
+
+  componentDidMount() {
+    this.slideIn.start();
   }
 
   login() {
@@ -50,7 +67,7 @@ class Login extends Component {
       .logInWithReadPermissions(['public_profile', 'email'])
       .then(result => {
         if (!result.isCancelled) {
-          console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);
+          // console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);
           // get the access token
           return AccessToken.getCurrentAccessToken();
         }
@@ -67,8 +84,7 @@ class Login extends Component {
         if (currentUser) {
           // console.info(JSON.stringify(currentUser.toJSON()))
           this.props.loginSuccess(currentUser);
-          console.log('login, ', this.props.auth);
-          // Actions.example();
+          Actions.example({ type: 'reset' });
         }
       })
       .catch(error => {
@@ -80,7 +96,6 @@ class Login extends Component {
     firebase.auth().signOut()
       .then(() => {
         this.props.logoutSuccess();
-        console.log('logout, ', this.props.auth);
       });
   }
 
@@ -89,34 +104,37 @@ class Login extends Component {
   }
 
   render() {
+    const slideStyle = { transform: [
+      { translateX: this.state.slide.x },
+      { translateY: this.state.slide.y }
+    ] };
+
     return (
       <View style={ styles.container }>
-      { !this.props.auth.user ?
-        <Button
-          large
-          rounded
-          backgroundColor='#4252B2'
-          icon={{ name: 'facebook-f',
-                  type: 'font-awesome' }}
-          title='Log in with Facebook'
-          onPress={ this.login } />
-        :
-        <Button
-          large
-          rounded
-          backgroundColor='#ff0000'
-          icon={{ name: 'facebook-f',
-                  type: 'font-awesome' }}
-          title='Log out'
-          onPress={ this.logout } />
-      }
-        <Button
+        <Image
+          source={ require('../img/StingerLogo.png') }
+        />
+        <Animated.View style={ slideStyle }>
+        { !this.props.auth.user ?
+          <Button
             large
             rounded
-            backgroundColor='#ff0055'
-            title='Switch scene'
-            onPress={ this.changeScene }
-            buttonStyle={ styles.padding } />
+            backgroundColor='#4252B2'
+            icon={{ name: 'facebook-f',
+                    type: 'font-awesome' }}
+            title='Log in with Facebook'
+            onPress={ this.login } />
+          :
+          <Button
+            large
+            rounded
+            backgroundColor='#ff0000'
+            icon={{ name: 'facebook-f',
+                    type: 'font-awesome' }}
+            title='Log out'
+            onPress={ this.logout } />
+        }
+        </Animated.View>
       </View>
     );
   }
@@ -129,7 +147,7 @@ function mapStateToProps(state) {
 }
 
 function matchDispatchToProps(dispatch) {
-  return bindActionCreators({ loginSuccess: loginSuccess,
+  return bindActionCreators({ loginSuccess:  loginSuccess,
                               logoutSuccess: logoutSuccess }, dispatch);
 }
 
