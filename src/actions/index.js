@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGOUT_SUCCESS } from '../constants';
+import { LOGIN_SUCCESS, LOGOUT_SUCCESS } from '../modules/constants';
 
 export const loginSuccess = (user) => {
     return {
