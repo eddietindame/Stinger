@@ -18,7 +18,7 @@ class Main extends Component {
         style={ styles.container }
       >
         <Text
-          style={{  marginBottom: 20 }}
+          style={{  marginBottom: 20, fontSize: 24 }}
         >Hello, { this.props.auth.user ? this.props.auth.user._user.displayName : 'user' }</Text>
         <LoginButton />
       </LinearGradient>

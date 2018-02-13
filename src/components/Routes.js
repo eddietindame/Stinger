@@ -28,6 +28,7 @@ class Routes extends Component {
                 key='main'
                 component={ Main }
                 title='Main'
+                hideNavBar
                 initial={ this.props.children ? true : false }
             />
           </Scene>
