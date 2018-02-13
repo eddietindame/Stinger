@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  View,
   Text,
   Image,
   Animated
@@ -11,7 +10,7 @@ import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import LoginButton from '../components/LoginButton';
 import { loginSuccess, logoutSuccess } from '../actions/index';
-import { COLOURS } from '../modules/constants';
+import { COLOURS, GRADIENTS, IMAGES } from '../modules/constants';
 
 const styles = StyleSheet.create({
   container: {
@@ -28,6 +27,14 @@ const styles = StyleSheet.create({
     marginTop: 50,
     // backgroundColor: '#314f89'
     backgroundColor: COLOURS.BLUE
+  },
+  text: {
+    fontFamily: 'Lato-Regular',
+    fontSize: 18
+  },
+  brand: {
+    fontFamily: 'Lato-Black',
+    fontSize: 48
   }
 });
 
@@ -60,14 +67,14 @@ class Login extends Component {
 
     return (
       <LinearGradient
-        // colors={['#4c669f', '#3b5998', '#192f6a']}
-        colors={['#FAD961', '#FFD400']}
+        colors={ GRADIENTS.STINGER_YELLOW }
         style={ styles.container }
       >
         <Image
-          source={ require('../img/StingerLogo.png') }
+          source={ IMAGES.LOGO }
         />
-        <Text>{ this.props.auth.user ? '' : 'Sign in to start using Stinger!' }</Text>
+        <Text style={ styles.brand }>{ 'Stinger' }</Text>
+        <Text style={ styles.text }>{ this.props.auth.user ? '' : 'Sign in to start using Stinger!' }</Text>
         <Animated.View style={ slideStyle }>
           <LoginButton />
         </Animated.View>

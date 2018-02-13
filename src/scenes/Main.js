@@ -5,18 +5,23 @@ import {
   View
 } from 'react-native';
 import { connect } from 'react-redux';
+import LinearGradient from 'react-native-linear-gradient';
 import LoginButton from '../components/LoginButton';
+import { GRADIENTS } from '../modules/constants';
 
 class Main extends Component {
 
   render() {
     return (
-      <View style={ styles.container }>
+      <LinearGradient
+        colors={ GRADIENTS.STINGER_YELLOW }
+        style={ styles.container }
+      >
         <Text
           style={{  marginBottom: 20 }}
-        >Hello, { this.props.auth.user ? this.props.auth.user._user.displayName : 'poop' }</Text>
+        >Hello, { this.props.auth.user ? this.props.auth.user._user.displayName : 'user' }</Text>
         <LoginButton />
-      </View>
+      </LinearGradient>
     );
   }
 }

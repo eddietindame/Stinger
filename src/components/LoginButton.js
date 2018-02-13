@@ -73,8 +73,8 @@ class LoginButton extends Component {
           //   throw new Error(error);
           // }
 
-          // this.changeScene();
-          Actions.main({ type: 'reset' });
+          this.changeScene();
+          // Actions.main({ type: 'reset' });
         }
       })
       .catch(error => {
@@ -89,10 +89,11 @@ class LoginButton extends Component {
       });
     LoginManager.logOut();
     AsyncStorage.removeItem('@AppStore:user');
+    this.changeScene();
   }
 
   changeScene() {
-    if (this.props.auth.user)
+    if (!this.props.auth.user)
       Actions.main({ type: 'reset' });
     else
       Actions.login({ type: 'reset' });
