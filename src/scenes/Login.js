@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import LinearGradient from 'react-native-linear-gradient';
 import LoginButton from '../components/LoginButton';
 import { loginSuccess, logoutSuccess } from '../actions/index';
 import { COLOURS } from '../modules/constants';
@@ -58,7 +59,11 @@ class Login extends Component {
     ] };
 
     return (
-      <View style={ styles.container }>
+      <LinearGradient
+        // colors={['#4c669f', '#3b5998', '#192f6a']}
+        colors={['#FAD961', '#FFD400']}
+        style={ styles.container }
+      >
         <Image
           source={ require('../img/StingerLogo.png') }
         />
@@ -66,7 +71,7 @@ class Login extends Component {
         <Animated.View style={ slideStyle }>
           <LoginButton />
         </Animated.View>
-      </View>
+      </LinearGradient>
     );
   }
 }

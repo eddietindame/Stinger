@@ -8,8 +8,11 @@ target 'Stinger' do
   # Pods for Stinger
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
+  pod 'React', :path => '../node_modules/react-native'
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+  pod 'BVLinearGradient', :path => '../node_modules/react-native-linear-gradient'
 
   target 'StingerTests' do
     inherit! :search_paths
