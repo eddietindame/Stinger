@@ -3,10 +3,15 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Router, Scene, Action } from 'react-native-router-flux';
 import Login from '../scenes/Login';
-import Example from '../scenes/Example';
+import Main from '../scenes/Main';
 import { loginSuccess, logoutSuccess } from '../actions/index';
 
 class Routes extends Component {
+
+  checkAuth() {
+    console.log('onEnter: ', this.props.children);
+    return this.props.children ? true : false;
+  }
 
   render() {
     return (
@@ -17,13 +22,13 @@ class Routes extends Component {
                 component={ Login }
                 title='Login'
                 hideNavBar
-                onEnter={ () => { console.log('onEnter: ', this.props.auth.user); if (this.props.auth.user) Action.example(); } }
+                onEnter={ () => { if (this.checkAuth()) Action.main(); } }
             />
             <Scene
-                key='example'
-                component={ Example }
-                title='Example'
-                initial={ this.props.auth.user ? true : false }
+                key='main'
+                component={ Main }
+                title='Main'
+                initial={ this.props.children ? true : false }
             />
           </Scene>
         </Router>

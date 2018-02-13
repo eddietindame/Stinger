@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
 import reducers from './reducers/index';
-import Routes from './components/Routes';
+import Splash from './components/Splash';
 
 export default class App extends Component {
 
@@ -16,7 +16,7 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={ this.store }>
-        <Routes />
+        <Splash />
       </Provider>
     );
   }

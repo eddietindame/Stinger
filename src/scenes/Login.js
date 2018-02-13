@@ -2,31 +2,32 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
+  Text,
   Image,
   Animated
 } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
-import firebase from 'react-native-firebase';
-import { AccessToken, LoginManager } from 'react-native-fbsdk';
-import { Button } from 'react-native-elements';
+import LoginButton from '../components/LoginButton';
 import { loginSuccess, logoutSuccess } from '../actions/index';
+import { COLOURS } from '../modules/constants';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingVertical: 100,
     justifyContent: 'space-around',
     alignItems: 'center',
-    backgroundColor: '#FDC132'
+    // backgroundColor: '#FDC132'
+    backgroundColor: COLOURS.YELLOW
   },
   button: {
     width: 100,
     height: 50,
     marginTop: 50,
-    backgroundColor: '#314f89'
-  },
-  padding: { marginTop: 50 }
+    // backgroundColor: '#314f89'
+    backgroundColor: COLOURS.BLUE
+  }
 });
 
 class Login extends Component {
@@ -38,9 +39,6 @@ class Login extends Component {
       slide: new Animated.ValueXY({ x: 0, y: -2000 })
     };
 
-    this.login = this.login.bind(this);
-    this.logout = this.logout.bind(this);
-
     this.slideIn = Animated.spring(
       this.state.slide,
       {
@@ -49,58 +47,8 @@ class Login extends Component {
     );
   }
 
-  componentWillMount() {
-    // Checks if user was previously signed in
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        // this.props.loginSuccess(user);
-      }
-    });
-  }
-
   componentDidMount() {
     this.slideIn.start();
-  }
-
-  login() {
-    return LoginManager
-      .logInWithReadPermissions(['public_profile', 'email'])
-      .then(result => {
-        if (!result.isCancelled) {
-          // console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);
-          // get the access token
-          return AccessToken.getCurrentAccessToken();
-        }
-      })
-      .then(data => {
-        if (data) {
-          // create a new firebase credential with the token
-          const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
-          // login with credential
-          return firebase.auth().signInWithCredential(credential);
-        }
-      })
-      .then(currentUser => {
-        if (currentUser) {
-          // console.info(JSON.stringify(currentUser.toJSON()))
-          this.props.loginSuccess(currentUser);
-          Actions.example({ type: 'reset' });
-        }
-      })
-      .catch(error => {
-        console.log(`Login fail with error: ${error}`);
-      });
-  }
-
-  logout() {
-    firebase.auth().signOut()
-      .then(() => {
-        this.props.logoutSuccess();
-      });
-  }
-
-  changeScene() {
-    Actions.example();
   }
 
   render() {
@@ -114,26 +62,9 @@ class Login extends Component {
         <Image
           source={ require('../img/StingerLogo.png') }
         />
+        <Text>{ this.props.auth.user ? '' : 'Sign in to start using Stinger!' }</Text>
         <Animated.View style={ slideStyle }>
-        { !this.props.auth.user ?
-          <Button
-            large
-            rounded
-            backgroundColor='#4252B2'
-            icon={{ name: 'facebook-f',
-                    type: 'font-awesome' }}
-            title='Log in with Facebook'
-            onPress={ this.login } />
-          :
-          <Button
-            large
-            rounded
-            backgroundColor='#ff0000'
-            icon={{ name: 'facebook-f',
-                    type: 'font-awesome' }}
-            title='Log out'
-            onPress={ this.logout } />
-        }
+          <LoginButton />
         </Animated.View>
       </View>
     );
