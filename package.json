@@ -16,7 +16,7 @@
     "react-native-fbsdk": "github:facebook/react-native-fbsdk",
     "react-native-firebase": "^3.2.2",
     "react-native-linear-gradient": "^2.4.0",
-    "react-native-router-flux": "^4.0.0-beta.28",
+    "react-native-router-flux": "^3.43.0",
     "react-native-vector-icons": "^4.5.0",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
