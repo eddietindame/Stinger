@@ -1,6 +1,6 @@
 import loginReducer from '../src/reducers/loginReducer';
 
-describe('Request Reducer', () => {
+describe('Login Reducer', () => {
 
     it('has a default state', () => {
         expect(
