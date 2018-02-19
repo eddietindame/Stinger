@@ -1,6 +1,7 @@
 package com.stinger;
 
 import com.facebook.react.ReactActivity;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import android.content.Intent;
 

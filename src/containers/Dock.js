@@ -12,32 +12,12 @@ const buttonRadius = 40;
 
 class Dock extends Component {
 
-    constructor() {
-        super();
-
-        // this.state.style = StyleSheet.create({
-        //     width: buttonRadius * 2,
-        //     height: buttonRadius * 2,
-        //     borderRadius: buttonRadius,
-        //     backgroundColor: COLOURS.LIGHT_GREEN
-        // });
-    }
-
-    changeScene() {
-      // Actions.main();
-    }
-
     render() {
-        console.log('dock render: ', this.props.route.scene.title);
         return (
-            this.props.route.scene.title === 'Login' ?
-            null
-            :
+            this.props.route.scene.title === 'Login' ? null :
             <View style={ styles.container }>
                 <DockButton
-                    // isFocused={ (this.props.routes }
                     colour={ COLOURS.LIGHT_GREEN }
-                    // onClick={ this.changeScene() }
                 />
                 <DockButton
                     colour={ COLOURS.YELLOW }
