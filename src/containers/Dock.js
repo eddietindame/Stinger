@@ -18,12 +18,15 @@ class Dock extends Component {
             <View style={ styles.container }>
                 <DockButton
                     colour={ COLOURS.LIGHT_GREEN }
+                    focused={ this.props.slide.index === 0 ? true : false }
                 />
                 <DockButton
                     colour={ COLOURS.YELLOW }
+                    focused={ this.props.slide.index === 1 ? true : false }
                 />
                 <DockButton
                     colour={ COLOURS.LIGHT_BLUE }
+                    focused={ this.props.slide.index === 2 ? true : false }
                 />
             </View>
         );
@@ -56,7 +59,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    route: state.route
+    route: state.route,
+    slide: state.slide
   };
 }
 

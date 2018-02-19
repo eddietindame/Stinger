@@ -1,7 +1,7 @@
 import {
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
-    CHANGE_SCENE_TO_MAIN
+    SLIDE_INDEX_CHANGED
 } from '../modules/constants';
 
 export const loginSuccess = (user) => {
@@ -17,8 +17,9 @@ export const logoutSuccess = () => {
     };
 };
 
-export const changeSceneToMain = () => {
+export const slideIndexChanged = (index) => {
     return {
-        type: CHANGE_SCENE_TO_MAIN
+        type: SLIDE_INDEX_CHANGED,
+        index: index
     };
 };

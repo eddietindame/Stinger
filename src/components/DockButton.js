@@ -24,26 +24,15 @@ const styles = StyleSheet.create({
 
 export default class DockButton extends Component {
 
-    constructor() {
-        super();
-
-        // this.state.style = StyleSheet.create({
-        //     width: buttonRadius * 2,
-        //     height: buttonRadius * 2,
-        //     borderRadius: buttonRadius,
-        //     backgroundColor: COLOURS.LIGHT_GREEN
-        // });
-    }
-
   render() {
     return (
         <TouchableOpacity
             style={[
                 styles.dockButton,
                 {
-                    width: buttonRadius * 2,
-                    height: buttonRadius * 2,
-                    borderRadius: buttonRadius,
+                    width: buttonRadius * 2 * (this.props.focused ? 1.2 : 1),
+                    height: buttonRadius * 2 * (this.props.focused ? 1.2 : 1),
+                    borderRadius: buttonRadius * (this.props.focused ? 1.2 : 1),
                     backgroundColor: this.props.colour
                 }
             ]}

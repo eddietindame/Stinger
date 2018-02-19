@@ -1,6 +1,6 @@
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS',
              LOGOUT_SUCCESS = 'LOGOUT_SUCCESS',
-             CHANGE_SCENE_TO_MAIN = 'CHANGE_SCENE_TO_MAIN';
+             SLIDE_INDEX_CHANGED = 'SLIDE_INDEX_CHANGED';
 
 export const IMAGES = {
     LOGO: require('../img/StingerLogo.png')
