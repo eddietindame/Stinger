@@ -8,9 +8,9 @@ import {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import LoginButton from '../components/LoginButton';
 import { loginSuccess, logoutSuccess } from '../actions/index';
 import { COLOURS, GRADIENTS, IMAGES } from '../modules/constants';
+import LoginButton from '../containers/LoginButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -73,8 +73,8 @@ class Login extends Component {
         <Image
           source={ IMAGES.LOGO }
         />
-        <Text style={ styles.brand }>{ 'Stinger' }</Text>
-        <Text style={ styles.text }>{ this.props.auth.user ? '' : 'Sign in to start using Stinger!' }</Text>
+        <Text style={ styles.brand }>Stinger</Text>
+        <Text style={ styles.text }>Sign in to start using Stinger!</Text>
         <Animated.View style={ slideStyle }>
           <LoginButton />
         </Animated.View>

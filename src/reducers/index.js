@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux';
-import routes from './routeReducer';
-import authentication from './loginReducer';
+import routeReducer from './routeReducer';
+import loginReducer from './loginReducer';
 
-const rootReducer = combineReducers({
-    routes,
-    authentication
+export default combineReducers({
+    route: routeReducer,
+    authentication: loginReducer
 });
-
-export default rootReducer;
