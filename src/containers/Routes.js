@@ -46,9 +46,9 @@ function mapStateToProps(state) {
   };
 }
 
-function matchDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch) {
   return bindActionCreators({ loginSuccess:  loginSuccess,
                               logoutSuccess: logoutSuccess }, dispatch);
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(Routes);
+export default connect(mapStateToProps, mapDispatchToProps)(Routes);

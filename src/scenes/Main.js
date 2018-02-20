@@ -27,7 +27,7 @@ class Main extends Component {
           loop={ false }
           showsPagination={ false }
           index={ 1 }
-          onIndexChanged={ (index) => { this.props.slideIndexChanged(index); } }
+          onIndexChanged={ index => { this.props.slideIndexChanged(index); } }
         >
           <View style={ styles.container }>
             <Text
@@ -82,8 +82,8 @@ function mapStateToProps(state) {
   };
 }
 
-function matchDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch) {
     return bindActionCreators({ slideIndexChanged: slideIndexChanged }, dispatch);
 }
 
-export default connect(mapStateToProps, matchDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

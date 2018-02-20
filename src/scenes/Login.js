@@ -5,10 +5,7 @@ import {
   Image,
   Animated
 } from 'react-native';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import { loginSuccess, logoutSuccess } from '../actions/index';
 import { COLOURS, GRADIENTS, IMAGES } from '../modules/constants';
 import LoginButton from '../containers/LoginButton';
 
@@ -38,7 +35,7 @@ const styles = StyleSheet.create({
   }
 });
 
-class Login extends Component {
+export default class Login extends Component {
 
   constructor() {
     super();
@@ -82,16 +79,3 @@ class Login extends Component {
     );
   }
 }
-
-function mapStateToProps(state) {
-  return {
-    auth: state.authentication
-  };
-}
-
-function matchDispatchToProps(dispatch) {
-  return bindActionCreators({ loginSuccess:  loginSuccess,
-                              logoutSuccess: logoutSuccess }, dispatch);
-}
-
-export default connect(mapStateToProps, matchDispatchToProps)(Login);
