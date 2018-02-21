@@ -13,6 +13,7 @@ import Swiper from 'react-native-swiper';
 import { GRADIENTS } from '../modules/constants';
 import { slideIndexChanged } from '../actions/index';
 import LoginButton from '../containers/LoginButton';
+import Rounds from '../containers/Rounds';
 
 class Main extends Component {
 
@@ -29,15 +30,9 @@ class Main extends Component {
           index={ 1 }
           onIndexChanged={ index => { this.props.slideIndexChanged(index); } }
         >
-          <View style={ styles.container }>
-            <Text
-              style={[{ marginBottom: 20, fontSize: 24 }, styles.lato]}
-            >Hello, { this.props.auth.user ? this.props.auth.user._user.displayName : 'user' }</Text>
-            <Text
-              style={[{ marginBottom: 20, fontSize: 24 }, styles.lato]}
-            >Left slide</Text>
-            <LoginButton />
-          </View>
+          <Rounds
+            user={ this.props.auth.user }
+          />
           <View style={ styles.container }>
             <Text
               style={[{ marginBottom: 20, fontSize: 24 }, styles.lato]}

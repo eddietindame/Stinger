@@ -56,7 +56,7 @@ export const login = () => dispatch => {
         .catch(error => {
             dispatch({
                 type: LOGIN_FAILURE,
-                payload: error
+                error: error
             });
         });
 };
@@ -79,7 +79,7 @@ export const logout = () => dispatch => {
         .catch(error => {
             dispatch({
                 type: LOGOUT_FAILURE,
-                payload: error
+                error: error
             });
         });
 };
@@ -116,7 +116,7 @@ export const checkAuth = () => dispatch => {
       .catch(error => {
         dispatch({
             type: CHECK_FAILURE,
-            payload: error
+            error: error
         });
       });
 

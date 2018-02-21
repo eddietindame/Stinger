@@ -10,7 +10,8 @@ export const LOGIN_REQUEST  = 'LOGIN_REQUEST',
              SLIDE_INDEX_CHANGED = 'SLIDE_INDEX_CHANGED';
 
 export const IMAGES = {
-    LOGO: require('../img/StingerLogo.png')
+    LOGO: require('../img/StingerLogo.png'),
+    LOGO_DARK: require('../img/logo_dark.png')
 };
 
 export const COLOURS = {

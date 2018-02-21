@@ -47,7 +47,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 isAuthenticating: false,
-                error: action.payload
+                error: action.error
             };
         default:
             return state;
