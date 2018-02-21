@@ -1,4 +1,4 @@
-import routeReducer from '../src/reducers/routeReducer';
+import routeReducer from '../src/reducers/routeReducer'
 
 describe('Route Reducer', () => {
 
@@ -10,8 +10,8 @@ describe('Route Reducer', () => {
             })
         ).toEqual({
             scene: {}
-        });
-    });
+        })
+    })
 
     it('can handle REACT_NATIVE_ROUTER_FLUX_FOCUS', () => {
         expect(
@@ -21,7 +21,7 @@ describe('Route Reducer', () => {
             })
         ).toEqual({
             scene: { foo: 'bar' }
-        });
-    });
+        })
+    })
 
-});
+})

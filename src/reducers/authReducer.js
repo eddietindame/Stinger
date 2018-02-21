@@ -8,13 +8,13 @@ import {
     CHECK_REQUEST,
     CHECK_SUCCESS,
     CHECK_FAILURE,
-} from '../modules/constants';
+} from '../modules/constants'
 
 const initialState = {
     isAuthenticating: false,
     user: null,
     error: null
-};
+}
 
 export default (state = initialState, action) => {
     switch(action.type) {
@@ -25,7 +25,7 @@ export default (state = initialState, action) => {
                 ...state,
                 isAuthenticating: true,
                 error: null
-            };
+            }
         case LOGIN_SUCCESS:
         case CHECK_SUCCESS:
             return {
@@ -33,14 +33,14 @@ export default (state = initialState, action) => {
                 isAuthenticating: false,
                 user: action.payload,
                 error: null
-            };
+            }
         case LOGOUT_SUCCESS:
             return {
                 ...state,
                 isAuthenticating: false,
                 user: null,
                 error: null
-            };
+            }
         case LOGIN_FAILURE:
         case LOGOUT_FAILURE:
         case CHECK_FAILURE:
@@ -48,8 +48,8 @@ export default (state = initialState, action) => {
                 ...state,
                 isAuthenticating: false,
                 error: action.error
-            };
+            }
         default:
-            return state;
+            return state
     }
-};
+}

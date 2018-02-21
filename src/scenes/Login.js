@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
   Image,
   Animated
-} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import { COLOURS, GRADIENTS, IMAGES } from '../modules/constants';
-import LoginButton from '../containers/LoginButton';
+} from 'react-native'
+import LinearGradient from 'react-native-linear-gradient'
+import { COLOURS, GRADIENTS, IMAGES } from '../modules/constants'
+import LoginButton from '../containers/LoginButton'
 
 const styles = StyleSheet.create({
   container: {
@@ -33,34 +33,34 @@ const styles = StyleSheet.create({
     fontFamily: 'Lato-Black',
     fontSize: 48
   }
-});
+})
 
 export default class Login extends Component {
 
   constructor() {
-    super();
+    super()
 
     this.state = {
       slide: new Animated.ValueXY({ x: 0, y: -2000 })
-    };
+    }
 
     this.slideIn = Animated.spring(
       this.state.slide,
       {
         toValue: 2
       }
-    );
+    )
   }
 
   componentDidMount() {
-    this.slideIn.start();
+    this.slideIn.start()
   }
 
   render() {
     const slideStyle = { transform: [
       { translateX: this.state.slide.x },
       { translateY: this.state.slide.y }
-    ] };
+    ] }
 
     return (
       <LinearGradient
@@ -76,6 +76,6 @@ export default class Login extends Component {
           <LoginButton />
         </Animated.View>
       </LinearGradient>
-    );
+    )
   }
 }

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { connect } from 'react-redux';
-import DockButton  from '../components/DockButton';
-import { COLOURS } from '../modules/constants';
+import React, { Component } from 'react'
+import { StyleSheet, View } from 'react-native'
+import { connect } from 'react-redux'
+import DockButton  from '../components/DockButton'
+import { COLOURS } from '../modules/constants'
 
 class Dock extends Component {
 
@@ -24,7 +24,7 @@ class Dock extends Component {
                     focused={ this.props.slide.index === 2 ? true : false }
                 />
             </View>
-        );
+        )
     }
 }
 
@@ -38,13 +38,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center'
   }
-});
+})
 
 function mapStateToProps(state) {
   return {
     route: state.route,
     slide: state.slide
-  };
+  }
 }
 
-export default connect(mapStateToProps, null)(Dock);
+export default connect(mapStateToProps, null)(Dock)

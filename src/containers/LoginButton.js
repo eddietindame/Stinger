@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { Actions } from 'react-native-router-flux';
-import { Button } from 'react-native-elements';
-import { login, logout } from '../actions/index';
-import { COLOURS } from '../modules/constants';
+import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { Actions } from 'react-native-router-flux'
+import { Button } from 'react-native-elements'
+import { login, logout } from '../actions/index'
+import { COLOURS } from '../modules/constants'
 
 class LoginButton extends Component {
 
     changeScene() {
         if (this.props.auth.user)
-            Actions.main({ type: 'reset' });
+            Actions.main({ type: 'reset' })
         else
-            Actions.login({ type: 'reset' });
+            Actions.login({ type: 'reset' })
     }
 
     render() {
@@ -37,19 +37,19 @@ class LoginButton extends Component {
                 title='Log out'
                 onPress={ this.props.logout }
             />
-        );
+        )
     }
 }
 
 function mapStateToProps(state) {
     return {
         auth: state.authentication
-    };
+    }
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({ login:  login,
-                                logout: logout }, dispatch);
+                                logout: logout }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginButton);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginButton)

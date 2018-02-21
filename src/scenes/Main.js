@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   StyleSheet,
   Text,
   View,
   Dimensions,
   Platform
-} from 'react-native';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import LinearGradient from 'react-native-linear-gradient';
-import Swiper from 'react-native-swiper';
-import { GRADIENTS } from '../modules/constants';
-import { slideIndexChanged } from '../actions/index';
-import LoginButton from '../containers/LoginButton';
-import Rounds from '../containers/Rounds';
+} from 'react-native'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import LinearGradient from 'react-native-linear-gradient'
+import Swiper from 'react-native-swiper'
+import { GRADIENTS } from '../modules/constants'
+import { slideIndexChanged } from '../actions/index'
+import LoginButton from '../containers/LoginButton'
+import Rounds from '../containers/Rounds'
 
 class Main extends Component {
 
@@ -28,7 +28,7 @@ class Main extends Component {
           loop={ false }
           showsPagination={ false }
           index={ 1 }
-          onIndexChanged={ index => { this.props.slideIndexChanged(index); } }
+          onIndexChanged={ index => { this.props.slideIndexChanged(index) } }
         >
           <Rounds
             user={ this.props.auth.user }
@@ -53,7 +53,7 @@ class Main extends Component {
           </View>
         </Swiper>
       </LinearGradient>
-    );
+    )
   }
 }
 
@@ -69,16 +69,16 @@ const styles = StyleSheet.create({
   lato: {
     fontFamily: 'Lato-Regular'
   }
-});
+})
 
 function mapStateToProps(state) {
   return {
     auth: state.authentication
-  };
+  }
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ slideIndexChanged: slideIndexChanged }, dispatch);
+    return bindActionCreators({ slideIndexChanged: slideIndexChanged }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main)

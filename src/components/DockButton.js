@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   StyleSheet,
   TouchableOpacity
-} from 'react-native';
+} from 'react-native'
 
-const buttonRadius = 40;
+const buttonRadius = 40
 
 const styles = StyleSheet.create({
     dockButton: {
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         elevation: 6
     }
-});
+})
 
 export default class DockButton extends Component {
 
@@ -37,6 +37,6 @@ export default class DockButton extends Component {
                 }
             ]}
         />
-    );
+    )
   }
 }

@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { Router, Scene, Tabs, Actions } from 'react-native-router-flux';
-import Login from '../scenes/Login';
-import Main from '../scenes/Main';
-import { loginSuccess, logoutSuccess } from '../actions/index';
+import React, { Component } from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { Router, Scene, Tabs, Actions } from 'react-native-router-flux'
+import Login from '../scenes/Login'
+import Main from '../scenes/Main'
+import { loginSuccess, logoutSuccess } from '../actions/index'
 
-const ConnectedRouter = connect()(Router);
+const ConnectedRouter = connect()(Router)
 
 const Scenes = Actions.create(
   <Scene key='root'>
@@ -15,7 +15,7 @@ const Scenes = Actions.create(
         component={ Login }
         title='Login'
         hideNavBar
-        // onEnter={ () => { if (this.checkAuth()) Actions.main(); } }
+        // onEnter={ () => { if (this.checkAuth()) Actions.main() } }
     />
     <Scene
         key='main'
@@ -25,30 +25,30 @@ const Scenes = Actions.create(
         // initial={ this.props.auth.user ? true : false }
     />
   </Scene>
-);
+)
 
 class Routes extends Component {
 
   checkAuth() {
-    // return this.props.children ? true : false;
+    // return this.props.children ? true : false
   }
 
   render() {
     return (
       <ConnectedRouter scenes={ Scenes } />
-    );
+    )
   }
 }
 
 function mapStateToProps(state) {
   return {
     auth: state.authentication
-  };
+  }
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({ loginSuccess:  loginSuccess,
-                              logoutSuccess: logoutSuccess }, dispatch);
+                              logoutSuccess: logoutSuccess }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Routes);
+export default connect(mapStateToProps, mapDispatchToProps)(Routes)

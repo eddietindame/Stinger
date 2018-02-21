@@ -1,4 +1,4 @@
-import authReducer from '../src/reducers/authReducer';
+import authReducer from '../src/reducers/authReducer'
 
 describe('Auth Reducer', () => {
 
@@ -9,8 +9,8 @@ describe('Auth Reducer', () => {
             isAuthenticating: false,
             user: null,
             error: null
-        });
-    });
+        })
+    })
 
     it('can handle LOGIN_REQUEST', () => {
         expect(
@@ -19,8 +19,8 @@ describe('Auth Reducer', () => {
             isAuthenticating: true,
             user: null,
             error: null
-        });
-    });
+        })
+    })
 
     it('can handle LOGOUT_REQUEST', () => {
         expect(
@@ -29,8 +29,8 @@ describe('Auth Reducer', () => {
             isAuthenticating: true,
             user: null,
             error: null
-        });
-    });
+        })
+    })
 
     it('can handle CHECK_REQUEST', () => {
         expect(
@@ -39,8 +39,8 @@ describe('Auth Reducer', () => {
             isAuthenticating: true,
             user: null,
             error: null
-        });
-    });
+        })
+    })
 
     it('can handle LOGIN_SUCCESS', () => {
         expect(
@@ -49,8 +49,8 @@ describe('Auth Reducer', () => {
             isAuthenticating: false,
             user: {},
             error: null
-        });
-    });
+        })
+    })
 
     it('can handle LOGOUT_SUCCESS', () => {
         expect(
@@ -59,8 +59,8 @@ describe('Auth Reducer', () => {
             isAuthenticating: false,
             user: {},
             error: null
-        });
-    });
+        })
+    })
 
     it('can handle CHECK_SUCCESS', () => {
         expect(
@@ -69,8 +69,8 @@ describe('Auth Reducer', () => {
             isAuthenticating: false,
             user: {},
             error: null
-        });
-    });
+        })
+    })
 
     it('can handle LOGIN_FAILURE', () => {
         expect(
@@ -79,8 +79,8 @@ describe('Auth Reducer', () => {
             isAuthenticating: false,
             user: null,
             error: 'An error occured'
-        });
-    });
+        })
+    })
 
     it('can handle LOGOUT_FAILURE', () => {
         expect(
@@ -89,8 +89,8 @@ describe('Auth Reducer', () => {
             isAuthenticating: false,
             user: null,
             error: 'An error occured'
-        });
-    });
+        })
+    })
 
     it('can handle CHECK_FAILURE', () => {
         expect(
@@ -99,7 +99,7 @@ describe('Auth Reducer', () => {
             isAuthenticating: false,
             user: null,
             error: 'An error occured'
-        });
-    });
+        })
+    })
 
-});
+})

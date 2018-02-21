@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { View, StyleSheet, Text, Image } from 'react-native';
-import { connect } from 'react-redux';
-import { IMAGES } from '../modules/constants';
+import React, { Component } from 'react'
+import { View, StyleSheet, Text, Image } from 'react-native'
+import { connect } from 'react-redux'
+import { IMAGES } from '../modules/constants'
 
 const styles = StyleSheet.create({
     container: {
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontFamily: 'Lato-Regular'
     }
-});
+})
 
 const NoGroups = () => (
     <View style={ styles.container }>
@@ -29,16 +29,16 @@ const NoGroups = () => (
             style={ styles.text }
         >Add one below...</Text>
     </View>
-);
+)
 
 class Rounds extends Component {
 
     constructor(props) {
-      super(props);
+      super(props)
     
       this.state = {
          hasGroups: false
-      };
+      }
     }
 
     render() {
@@ -49,8 +49,8 @@ class Rounds extends Component {
                     style={ styles.text }
                 >You have groups</Text>
             </View>
-        );
+        )
     }
 }
 
-export default connect(null, null)(Rounds);
+export default connect(null, null)(Rounds)

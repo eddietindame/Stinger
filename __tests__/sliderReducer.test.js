@@ -1,4 +1,4 @@
-import swiperReducer from '../src/reducers/swiperReducer';
+import swiperReducer from '../src/reducers/swiperReducer'
 
 describe('Swiper Reducer', () => {
 
@@ -10,8 +10,8 @@ describe('Swiper Reducer', () => {
             })
         ).toEqual({
             index: 1
-        });
-    });
+        })
+    })
 
     it('can handle SLIDE_INDEX_CHANGED', () => {
         expect(
@@ -21,7 +21,7 @@ describe('Swiper Reducer', () => {
             })
         ).toEqual({
             index: 2
-        });
-    });
+        })
+    })
 
-});
+})
