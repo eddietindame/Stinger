@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
 import {
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  Image,
+  LayoutAnimation,
+  View,
+  UIManager
 } from 'react-native'
+
+UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
 
 const buttonRadius = 40
 
@@ -18,11 +24,23 @@ const styles = StyleSheet.create({
         },
         shadowRadius: 4,
         shadowOpacity: 0.2,
-        elevation: 6
+        elevation: 6,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 })
 
 export default class DockButton extends Component {
+
+    componentWillUpdate() {
+        LayoutAnimation.configureNext({
+            duration: 200,
+            update: {
+                type: 'linear'
+            }
+        })
+    }
 
   render() {
     return (
@@ -36,7 +54,9 @@ export default class DockButton extends Component {
                     backgroundColor: this.props.colour
                 }
             ]}
-        />
+        >
+            <Image source={ this.props.icon } />
+        </TouchableOpacity>
     )
   }
 }

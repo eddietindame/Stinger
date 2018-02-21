@@ -22,8 +22,11 @@ class LoginButton extends Component {
                 large
                 rounded
                 backgroundColor={ COLOURS.FACEBOOK_BLUE }
-                icon={{ name: 'facebook-f',
-                        type: 'font-awesome' }}
+                loading={ this.props.auth.isAuthenticating }
+                icon={ this.props.auth.isAuthenticating ? null : {
+                    name: 'facebook-f',
+                    type: 'font-awesome'
+                }}
                 title='Log in with Facebook'
                 onPress={ this.props.login }
             />
@@ -32,8 +35,11 @@ class LoginButton extends Component {
                 large
                 rounded
                 backgroundColor='#ff0000'
-                icon={{ name: 'facebook-f',
-                        type: 'font-awesome' }}
+                loading={ this.props.auth.isAuthenticating }
+                icon={ this.props.auth.isAuthenticating ? null : {
+                    name: 'facebook-f',
+                    type: 'font-awesome'
+                }}
                 title='Log out'
                 onPress={ this.props.logout }
             />

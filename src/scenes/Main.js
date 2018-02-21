@@ -27,7 +27,7 @@ class Main extends Component {
           style={ Platform.OS === 'android' ? { width: Dimensions.get('window').width } : null }
           loop={ false }
           showsPagination={ false }
-          index={ 1 }
+          index={ this.props.slide.index }
           onIndexChanged={ index => { this.props.slideIndexChanged(index) } }
         >
           <Rounds
@@ -73,7 +73,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    auth: state.authentication
+    auth: state.authentication,
+    slide: state.slide
   }
 }
 

@@ -14,6 +14,12 @@ export const IMAGES = {
     LOGO_DARK: require('../img/logo_dark.png')
 }
 
+export const ICONS = {
+    PLUS:  require('../img/ion-ios-plus-empty.png'),
+    GROUP: require('../img/group.png'),
+    GROUP_OUTLINE: require('../img/ion-ios-people-outline.png')
+}
+
 export const COLOURS = {
     YELLOW:          '#FFD400', // YELLOW (NCS)
     RED:             '#C1292E', // INTERNATIONAL ORANGE (GOLDEN GATE BRIDGE)
@@ -27,5 +33,6 @@ export const COLOURS = {
 
 export const GRADIENTS = {
     STINGER_YELLOW: ['#FAD961', '#FFD400'],
-    FACEBOOK_BLUE:  ['#4c669f', '#3b5998', '#192f6a']
+    FACEBOOK_BLUE:  ['#4c669f', '#3b5998', '#192f6a'],
+    DARK:           ['#31364C', '#161925']
 }
