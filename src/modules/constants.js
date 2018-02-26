@@ -6,8 +6,12 @@ export const LOGIN_REQUEST  = 'LOGIN_REQUEST',
              LOGOUT_FAILURE = 'LOGOUT_FAILURE',
              CHECK_REQUEST  = 'CHECK_REQUEST',
              CHECK_SUCCESS  = 'CHECK_SUCCESS',
-             CHECK_FAILURE  = 'CHECK_FAILURE',
-             SLIDE_INDEX_CHANGED = 'SLIDE_INDEX_CHANGED'
+             CHECK_FAILURE  = 'CHECK_FAILURE'
+
+export const DATABASE_SET    = 'DATABASE_SET',
+             DATABASE_REMOVE = 'DATABASE_REMOVE'
+
+export const SLIDE_INDEX_CHANGED = 'SLIDE_INDEX_CHANGED'
 
 export const IMAGES = {
     LOGO: require('../img/StingerLogo.png'),

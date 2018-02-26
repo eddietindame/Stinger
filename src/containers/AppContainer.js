@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { checkAuth } from '../actions/index'
+import { checkAuth } from '../actions/authActions'
 
 class AppContainer extends Component {
 

@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
 import { Button } from 'react-native-elements'
-import { login, logout } from '../actions/index'
+import { login, logout } from '../actions/authActions'
 import { COLOURS } from '../modules/constants'
 
 class LoginButton extends Component {

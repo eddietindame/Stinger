@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Router, Scene, Actions } from 'react-native-router-flux'
 import Login from '../scenes/Login'
 import Main from '../scenes/Main'
-import { loginSuccess, logoutSuccess } from '../actions/index'
+import { loginSuccess, logoutSuccess } from '../actions/authActions'
 
 const ConnectedRouter = connect()(Router)
 
