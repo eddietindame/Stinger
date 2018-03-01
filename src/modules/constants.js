@@ -8,8 +8,12 @@ export const LOGIN_REQUEST  = 'LOGIN_REQUEST',
              CHECK_SUCCESS  = 'CHECK_SUCCESS',
              CHECK_FAILURE  = 'CHECK_FAILURE'
 
-export const DATABASE_SET    = 'DATABASE_SET',
-             DATABASE_REMOVE = 'DATABASE_REMOVE'
+export const DB_SET_REQUEST = 'DB_SET_REQUEST',
+             DB_SET_SUCCESS = 'DB_SET_SUCCESS',
+             DB_SET_FAILURE = 'DB_SET_FAILURE',
+             DB_REMOVE_REQUEST = 'DB_REMOVE_REQUEST',
+             DB_REMOVE_SUCCESS = 'DB_REMOVE_SUCCESS',
+             DB_REMOVE_FAILURE = 'DB_REMOVE_FAILURE'
 
 export const SLIDE_INDEX_CHANGED = 'SLIDE_INDEX_CHANGED'
 
@@ -19,7 +23,7 @@ export const IMAGES = {
 }
 
 export const ICONS = {
-    PLUS:  require('../img/ion-ios-plus-empty.png'),
+    PLUS: require('../img/ion-ios-plus-empty.png'),
     GROUP: require('../img/group.png'),
     GROUP_OUTLINE: require('../img/ion-ios-people-outline.png')
 }

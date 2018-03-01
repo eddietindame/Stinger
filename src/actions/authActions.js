@@ -17,6 +17,7 @@ import {
     CHECK_FAILURE,
     SLIDE_INDEX_CHANGED
 } from '../modules/constants'
+import { writeUserData } from '../actions/dbActions'
 
 export const login = () => dispatch => {
     dispatch({
@@ -46,10 +47,16 @@ export const login = () => dispatch => {
         })
         .then(user => {
             if (user) {
+                // If user does not exist in DB then add new entry
+                firebase.database().ref('users/').once('value', snapshot => {
+                    snapshot.hasChild(user.uid) || dispatch(writeUserData(user._user))
+                })
+
                 dispatch({
                     type: LOGIN_SUCCESS,
                     payload: user
                 })
+
                 Actions.main('reset')
             }
         })

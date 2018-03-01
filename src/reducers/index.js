@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux'
 import routeReducer from './routeReducer'
 import authReducer from './authReducer'
+import dbReducer from './dbReducer'
 import swiperReducer from './swiperReducer'
 
 export default combineReducers({
-    route: routeReducer,
     authentication: authReducer,
+    db: dbReducer,
+    route: routeReducer,
     slide: swiperReducer
 })

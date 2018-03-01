@@ -9,16 +9,15 @@ import { COLOURS } from '../modules/constants'
 class LoginButton extends Component {
 
     changeScene() {
-        if (this.props.auth.user)
-            Actions.main({ type: 'reset' })
-        else
-            Actions.login({ type: 'reset' })
+        this.props.auth.user
+            ? Actions.main({ type: 'reset' })
+            : Actions.login({ type: 'reset' })
     }
 
     render() {
         return (
-            !this.props.auth.user ?
-            <Button
+            !this.props.auth.user
+            ? <Button
                 large
                 rounded
                 backgroundColor={ COLOURS.FACEBOOK_BLUE }
@@ -30,8 +29,7 @@ class LoginButton extends Component {
                 title='Log in with Facebook'
                 onPress={ this.props.login }
             />
-            :
-            <Button
+            : <Button
                 large
                 rounded
                 backgroundColor='#ff0000'

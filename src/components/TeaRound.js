@@ -53,8 +53,8 @@ export default class TeaRound extends Component {
                     <Image source={ ICONS.GROUP } />
                 </View>
                 <View style={ styles.textContainer } >
-                    <Text style={ styles.text }>{ this.props.name }</Text>
-                    <Text style={ styles.text }>{ this.props.members } Members</Text>
+                    <Text style={ styles.text }>{ this.props.item.title }</Text>
+                    <Text style={ styles.text }>{ this.props.item.members } Members</Text>
                 </View>
             </LinearGradient>
         )

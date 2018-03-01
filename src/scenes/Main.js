@@ -8,7 +8,6 @@ import {
 } from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import firebase from 'react-native-firebase'
 import LinearGradient from 'react-native-linear-gradient'
 import Swiper from 'react-native-swiper'
 import { GRADIENTS } from '../modules/constants'
@@ -17,32 +16,6 @@ import LoginButton from '../containers/LoginButton'
 import Rounds from '../containers/Rounds'
 
 class Main extends Component {
-
-  constructor() {
-    super()
-
-    this.itemsRef = firebase.database().ref();
-  }
-
-  listenForItems(itemsRef) {
-    itemsRef.on('value', (snap) => {
-
-      // get children as an array
-      var items = [];
-      snap.forEach((child) => {
-        items.push({
-          title: child.val().title,
-          _key: child.key
-        });
-      });
-
-      console.log(items);
-    });
-  }
-
-  componentDidMount() {
-    this.listenForItems(this.itemsRef);
-  }
 
   render() {
     return (
