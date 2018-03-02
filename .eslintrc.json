@@ -5,6 +5,7 @@
         "jest": true
     },
     "extends": "eslint:recommended",
+    "parser": "babel-eslint",
     "parserOptions": {
         "ecmaFeatures": {
             "experimentalObjectRestSpread": true,
@@ -13,7 +14,8 @@
         "sourceType": "module"
     },
     "plugins": [
-        "eslint-plugin-react"
+        "eslint-plugin-react",
+        "eslint-plugin-flowtype"
     ],
     "rules": {
         "linebreak-style": [
