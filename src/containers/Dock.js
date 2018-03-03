@@ -1,36 +1,51 @@
 import React, { Component } from 'react'
 import { StyleSheet, View } from 'react-native'
+import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { changeSlideIndex } from '../actions/swiperActions'
 import DockButton  from '../components/DockButton'
 import { COLOURS, ICONS } from '../modules/constants'
 
-class Dock extends Component {
+type Props = {
+    route: string,
+    slide: number
+}
+
+class Dock extends Component<Props> {
 
     render() {
         return (
             // Do not display on the login screen
-            this.props.route.scene.title !== 'Login' &&
+            this.props.route !== 'Login' &&
             <View style={ styles.container }>
-                <View style={ styles.layout }>
-                    <DockButton
-                        colour={ COLOURS.LIGHT_GREEN }
-                        focused={ this.props.slide.index === 0 ? true : false }
-                        icon={ ICONS.GROUP_OUTLINE }
-                    />
-                </View>
-                <View style={ styles.layout }>
-                    <DockButton
-                        colour={ COLOURS.YELLOW }
-                        focused={ this.props.slide.index === 1 ? true : false }
-                        icon={ null }
-                    />
-                </View>
-                <View style={ styles.layout }>
-                    <DockButton
-                        colour={ COLOURS.LIGHT_BLUE }
-                        focused={ this.props.slide.index === 2 ? true : false }
-                        icon={ null }
-                    />
+                <View style={{
+                    flexDirection: 'row',
+                    width: 320
+                }}>
+                    <View style={ styles.layout }>
+                        <DockButton
+                            colour={ COLOURS.LIGHT_GREEN }
+                            focused={ this.props.slide === 0 }
+                            icon={ ICONS.GROUP_OUTLINE }
+                            onPress={ () => { this.props.changeSlideIndex(0) } }
+                        />
+                    </View>
+                    <View style={ styles.layout }>
+                        <DockButton
+                            colour={ COLOURS.YELLOW }
+                            focused={ this.props.slide === 1 }
+                            icon={ ICONS.BUZZ }
+                            onPress={ () => { this.props.changeSlideIndex(1) } }
+                        />
+                    </View>
+                    <View style={ styles.layout }>
+                        <DockButton
+                            colour={ COLOURS.LIGHT_BLUE }
+                            focused={ this.props.slide === 2 }
+                            icon={ ICONS.USER_OUTLINE }
+                            onPress={ () => { this.props.changeSlideIndex(2) } }
+                        />
+                    </View>
                 </View>
             </View>
         )
@@ -40,6 +55,7 @@ class Dock extends Component {
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
+        alignSelf: 'flex-end',
         bottom: -10,
         right: 0,
         left: 0,
@@ -56,9 +72,15 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    route: state.route,
-    slide: state.slide
+    route: state.route.scene.title,
+    slide: state.slide.index
   }
 }
 
-export default connect(mapStateToProps, null)(Dock)
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ changeSlideIndex: changeSlideIndex }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dock)
+
+// @flow

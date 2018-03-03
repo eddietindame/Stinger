@@ -11,11 +11,19 @@ import { connect } from 'react-redux'
 import LinearGradient from 'react-native-linear-gradient'
 import Swiper from 'react-native-swiper'
 import { GRADIENTS } from '../modules/constants'
-import { slideIndexChanged } from '../actions/index'
+import { slideIndexChanged } from '../actions/swiperActions'
 import LoginButton from '../containers/LoginButton'
 import Rounds from '../containers/Rounds'
 
 class Main extends Component {
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.slide.newIndex !== nextProps.slide.newIndex) {
+      this._swiper.scrollBy(nextProps.slide.newIndex - this.props.slide.index)
+    } else if (this.props.slide.changed === true && nextProps.slide.changed === false) {
+      this._swiper.scrollBy(nextProps.slide.newIndex - this.props.slide.index)
+    }
+  }
 
   render() {
     return (
@@ -24,11 +32,14 @@ class Main extends Component {
         style={ styles.container }
       >
         <Swiper
-          style={ Platform.OS === 'android' ? { width: Dimensions.get('window').width } : null }
+          style={ Platform.OS === 'android'
+            ? { width: Dimensions.get('window').width }
+            : null }
           loop={ false }
           showsPagination={ false }
-          index={ this.props.slide.index }
+          index={ 0 }
           onIndexChanged={ index => { this.props.slideIndexChanged(index) } }
+          ref={ swiper => { this._swiper = swiper } }
         >
           <Rounds
             user={ this.props.auth.user }
@@ -79,7 +90,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ slideIndexChanged: slideIndexChanged }, dispatch)
+  return bindActionCreators({ slideIndexChanged: slideIndexChanged }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main)

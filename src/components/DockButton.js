@@ -4,11 +4,12 @@ import {
   TouchableOpacity,
   Image,
   LayoutAnimation,
-  View,
   UIManager
 } from 'react-native'
 
-UIManager.setLayoutAnimationEnabledExperimental && UIManager.setLayoutAnimationEnabledExperimental(true);
+// Android drop shadows
+UIManager.setLayoutAnimationEnabledExperimental
+    && UIManager.setLayoutAnimationEnabledExperimental(true);
 
 const buttonRadius = 40
 
@@ -42,21 +43,22 @@ export default class DockButton extends Component {
         })
     }
 
-  render() {
-    return (
-        <TouchableOpacity
-            style={[
-                styles.dockButton,
-                {
-                    width: buttonRadius * 2 * (this.props.focused ? 1.2 : 1),
-                    height: buttonRadius * 2 * (this.props.focused ? 1.2 : 1),
-                    borderRadius: buttonRadius * (this.props.focused ? 1.2 : 1),
-                    backgroundColor: this.props.colour
-                }
-            ]}
-        >
-            <Image source={ this.props.icon } />
-        </TouchableOpacity>
-    )
-  }
+    render() {
+        return (
+            <TouchableOpacity
+                onPress={ this.props.onPress }
+                style={[
+                    styles.dockButton,
+                    {
+                        width: buttonRadius * 2 * (this.props.focused ? 1.2 : 1),
+                        height: buttonRadius * 2 * (this.props.focused ? 1.2 : 1),
+                        borderRadius: buttonRadius * (this.props.focused ? 1.2 : 1),
+                        backgroundColor: this.props.colour
+                    }
+                ]}
+            >
+                <Image source={ this.props.icon } />
+            </TouchableOpacity>
+        )
+    }
 }

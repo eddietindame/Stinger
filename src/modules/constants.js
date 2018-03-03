@@ -15,7 +15,8 @@ export const DB_SET_REQUEST = 'DB_SET_REQUEST',
              DB_REMOVE_SUCCESS = 'DB_REMOVE_SUCCESS',
              DB_REMOVE_FAILURE = 'DB_REMOVE_FAILURE'
 
-export const SLIDE_INDEX_CHANGED = 'SLIDE_INDEX_CHANGED'
+export const SLIDE_INDEX_CHANGED = 'SLIDE_INDEX_CHANGED',
+             CHANGE_SLIDE_INDEX  = 'CHANGE_SLIDE_INDEX'
 
 export const IMAGES = {
     LOGO: require('../img/StingerLogo.png'),
@@ -23,9 +24,11 @@ export const IMAGES = {
 }
 
 export const ICONS = {
-    PLUS: require('../img/ion-ios-plus-empty.png'),
+    BUZZ:  require('../img/buzz.png'),
+    PLUS:  require('../img/ion-ios-plus-empty.png'),
     GROUP: require('../img/group.png'),
-    GROUP_OUTLINE: require('../img/ion-ios-people-outline.png')
+    GROUP_OUTLINE: require('../img/ion-ios-people-outline.png'),
+    USER_OUTLINE:  require('../img/user-icon.png')
 }
 
 export const COLOURS = {
