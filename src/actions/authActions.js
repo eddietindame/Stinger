@@ -1,5 +1,7 @@
 import firebase from 'react-native-firebase'
-import { Actions } from 'react-native-router-flux'
+import {
+    Actions
+} from 'react-native-router-flux'
 import {
     AccessToken,
     LoginManager
@@ -12,12 +14,16 @@ import {
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
     LOGOUT_FAILURE,
-    CHECK_REQUEST,
-    CHECK_SUCCESS,
-    CHECK_FAILURE,
+    AUTH_CHECK_REQUEST,
+    AUTH_CHECK_SUCCESS,
+    AUTH_CHECK_FAILURE,
     SLIDE_INDEX_CHANGED
 } from '../modules/constants'
-import { writeUserData } from '../actions/dbActions'
+import {
+    writeUserData,
+    writeUserDataLocal,
+    setStatus
+} from '../actions/dbActions'
 
 export const login = () => dispatch => {
     dispatch({
@@ -51,6 +57,9 @@ export const login = () => dispatch => {
                 firebase.database().ref('users/').once('value', snapshot => {
                     snapshot.hasChild(user.uid) || dispatch(writeUserData(user._user))
                 })
+                .then(() => {
+                    dispatch(setStatus('online'))
+                })
 
                 dispatch({
                     type: LOGIN_SUCCESS,
@@ -72,6 +81,7 @@ export const logout = () => dispatch => {
     dispatch({
         type: LOGOUT_REQUEST
     })
+    dispatch(setStatus('offline'))
 
     firebase.auth().signOut()
         .then(() => {
@@ -93,39 +103,41 @@ export const logout = () => dispatch => {
 
 export const checkAuth = () => dispatch => {
     dispatch({
-        type: CHECK_REQUEST
+        type: AUTH_CHECK_REQUEST
     })
 
     AccessToken.getCurrentAccessToken()
-      .then(token => {
-        if (token) {
-          firebase.auth().onAuthStateChanged(currentUser => {
-            if (currentUser) {
-                dispatch({
-                    type: CHECK_SUCCESS,
-                    payload: currentUser
+        .then(token => {
+            if (token) {
+                firebase.auth().onAuthStateChanged(currentUser => {
+                    if (currentUser) {
+                        dispatch({
+                            type: AUTH_CHECK_SUCCESS,
+                            payload: currentUser
+                        })
+                        dispatch(writeUserDataLocal(currentUser._user))
+                        dispatch(setStatus('online'))
+                        Actions.main('reset')
+                    } else {
+                        dispatch({
+                            type: AUTH_CHECK_FAILURE,
+                            payload: 'User not signed in'
+                        })
+                    }
                 })
-                Actions.main('reset')
             } else {
                 dispatch({
-                    type: CHECK_FAILURE,
+                    type: AUTH_CHECK_FAILURE,
                     payload: 'User not signed in'
                 })
             }
-          })
-        } else {
-            dispatch({
-                type: CHECK_FAILURE,
-                payload: 'User not signed in'
-            })
-        }
-      })
-      .catch(error => {
-        dispatch({
-            type: CHECK_FAILURE,
-            error: error
         })
-      })
+        .catch(error => {
+            dispatch({
+                type: AUTH_CHECK_FAILURE,
+                error: error
+            })
+        })
 
     setTimeout(() => {
         try {

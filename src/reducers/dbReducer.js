@@ -5,15 +5,17 @@ import {
     DB_REMOVE_REQUEST,
     // DB_REMOVE_SUCCESS,
     DB_REMOVE_FAILURE,
-    // CHECK_REQUEST,
-    // CHECK_SUCCESS,
-    // CHECK_FAILURE,
+    // AUTH_CHECK_REQUEST,
+    // AUTH_CHECK_SUCCESS,
+    // AUTH_CHECK_FAILURE,
 } from '../modules/constants'
 
 const initialState = {
     isQuerying: false,
     uid: null,
+    photoURL: null,
     rounds: {},
+    status: 'offline',
     error: null
 }
 
@@ -21,19 +23,21 @@ export default (state = initialState, action) => {
     switch(action.type) {
         case DB_SET_REQUEST:
         case DB_REMOVE_REQUEST:
-        // case CHECK_REQUEST:
+        // case AUTH_CHECK_REQUEST:
             return {
                 ...state,
                 isQuerying: true,
                 error: null
             }
         case DB_SET_SUCCESS:
-        // case CHECK_SUCCESS:
+        // case AUTH_CHECK_SUCCESS:
             return {
                 ...state,
                 isQuerying: false,
                 uid: action.uid || state.uid,
+                photoURL: action.photoURL || state.photoURL,
                 rounds: action.rounds || state.rounds,
+                status: action.status || state.status,
                 error: null
             }
         // case DB_REMOVE_SUCCESS:
@@ -45,7 +49,7 @@ export default (state = initialState, action) => {
         //     }
         case DB_SET_FAILURE:
         case DB_REMOVE_FAILURE:
-        // case CHECK_FAILURE:
+        // case AUTH_CHECK_FAILURE:
             return {
                 ...state,
                 isQuerying: false,

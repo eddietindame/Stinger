@@ -17,7 +17,7 @@ import {
     COLOURS
 } from '../modules/constants'
 import TeaRound from '../components/TeaRound'
-import { addRound } from '../actions/dbActions';
+import { addRound, removeRound } from '../actions/dbActions'
 
 const buttonRadius = 20
 
@@ -97,6 +97,8 @@ class Rounds extends Component {
            rowHasChanged: (row1, row2) => row1 !== row2
          })
       }
+
+      this.deleteRound = this.deleteRound.bind(this)
     }
 
     listenForItems(itemsRef) {
@@ -118,14 +120,19 @@ class Rounds extends Component {
       });
     }
 
-    onPress() {
-        this.props.addRound(this.props.auth.user._user.uid)
+    addRound() {
+        this.props.addRound()
+    }
+
+    deleteRound(roundID) {
+        this.props.removeRound(roundID)
     }
 
     _renderItem(item) {
         return (
           <TeaRound
             item={ item }
+            onPress={ this.deleteRound }
           />
         )
     }
@@ -145,11 +152,11 @@ class Rounds extends Component {
                     renderRow={ this._renderItem.bind(this) }
                 />
                 {/* <AddButton
-                    onPress={ this.onPress }
+                    onPress={ this.addRound.bind(this) }
                 /> */}
                 <TouchableOpacity
                     style={ styles.addButton }
-                    onPress={ this.onPress.bind(this) }
+                    onPress={ this.addRound.bind(this) }
                 >
                     <Image source={ ICONS.PLUS } />
                 </TouchableOpacity>
@@ -165,7 +172,10 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ addRound: addRound }, dispatch)
+    return bindActionCreators({
+        addRound: addRound,
+        removeRound: removeRound
+    }, dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Rounds)

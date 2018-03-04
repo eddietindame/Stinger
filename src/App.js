@@ -8,7 +8,7 @@ import Routes from './containers/Routes'
 import Dock from './containers/Dock'
 import AppContainer from './containers/AppContainer'
 
-const store = createStore(reducers, applyMiddleware(thunk, createLogger({
+export const store = createStore(reducers, applyMiddleware(thunk, createLogger({
   collapsed: true
 })))
 

@@ -5,9 +5,9 @@ import {
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
     LOGOUT_FAILURE,
-    CHECK_REQUEST,
-    CHECK_SUCCESS,
-    CHECK_FAILURE,
+    AUTH_CHECK_REQUEST,
+    AUTH_CHECK_SUCCESS,
+    AUTH_CHECK_FAILURE,
 } from '../modules/constants'
 
 const initialState = {
@@ -20,14 +20,14 @@ export default (state = initialState, action) => {
     switch(action.type) {
         case LOGIN_REQUEST:
         case LOGOUT_REQUEST:
-        case CHECK_REQUEST:
+        case AUTH_CHECK_REQUEST:
             return {
                 ...state,
                 isAuthenticating: true,
                 error: null
             }
         case LOGIN_SUCCESS:
-        case CHECK_SUCCESS:
+        case AUTH_CHECK_SUCCESS:
             return {
                 ...state,
                 isAuthenticating: false,
@@ -43,7 +43,7 @@ export default (state = initialState, action) => {
             }
         case LOGIN_FAILURE:
         case LOGOUT_FAILURE:
-        case CHECK_FAILURE:
+        case AUTH_CHECK_FAILURE:
             return {
                 ...state,
                 isAuthenticating: false,

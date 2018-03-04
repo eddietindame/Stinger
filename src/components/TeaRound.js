@@ -3,7 +3,8 @@ import {
     StyleSheet,
     Text,
     View,
-    Image
+    Image,
+    TouchableHighlight
 } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 import {
@@ -16,11 +17,14 @@ const styles = StyleSheet.create({
     container: {
         height: 100,
         marginBottom: 8,
-        padding: 8,
         alignSelf: 'stretch',
-        display: 'flex',
-        flexDirection: 'row',
         borderRadius: 8
+    },
+    inner: {
+        flexDirection: 'row',
+        borderRadius: 8,
+        padding: 8,
+        flex: 1
     },
     image: {
         width: 90,
@@ -45,18 +49,24 @@ export default class TeaRound extends Component {
 
     render() {
         return (
-            <LinearGradient
-                colors={ GRADIENTS.DARK }
+            <TouchableHighlight
+                onPress={ () => this.props.onPress(this.props.item._key) }
                 style={ styles.container }
             >
-                <View style={ styles.image }>
-                    <Image source={ ICONS.GROUP } />
-                </View>
-                <View style={ styles.textContainer } >
-                    <Text style={ styles.text }>{ this.props.item.title }</Text>
-                    <Text style={ styles.text }>{ this.props.item.members } Members</Text>
-                </View>
-            </LinearGradient>
+                <LinearGradient
+                    colors={ GRADIENTS.DARK }
+                    style={ styles.inner }
+                >
+                    <View style={ styles.image }>
+                        <Image source={ ICONS.GROUP } />
+                    </View>
+                    <View style={ styles.textContainer } >
+                        <Text style={ styles.text }>{ this.props.item.title }</Text>
+                        <Text style={ styles.text }>{ this.props.item.members } Members</Text>
+                        <Text style={[ styles.text, { fontSize: 18 } ]}>Id: { this.props.item._key }</Text>
+                    </View>
+                </LinearGradient>
+            </TouchableHighlight>
         )
     }
 }
