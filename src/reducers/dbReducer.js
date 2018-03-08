@@ -13,6 +13,8 @@ import {
 const initialState = {
     isQuerying: false,
     uid: null,
+    fbid: null,
+    friendsList: [],
     photoURL: null,
     rounds: {},
     status: 'offline',
@@ -35,6 +37,8 @@ export default (state = initialState, action) => {
                 ...state,
                 isQuerying: false,
                 uid: action.uid || state.uid,
+                fbid: action.fbid || state.fbid,
+                friendsList: action.friendsList || state.friendsList,
                 photoURL: action.photoURL || state.photoURL,
                 rounds: action.rounds || state.rounds,
                 status: action.status || state.status,

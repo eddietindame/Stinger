@@ -7,16 +7,17 @@ import {
     DB_REMOVE_SUCCESS,
     DB_REMOVE_FAILURE
 } from '../modules/constants'
-import { store } from '../App';
 
-export const writeUserData = ({ displayName, email, photoURL, uid }) => dispatch => {
+export const writeUserData = ({ displayName, email, photoURL, uid }, fbid) => async dispatch => {
     dispatch({
         type: DB_SET_REQUEST
     })
 
-    firebase
+    return await firebase
         .database().ref('users/' + uid).set({
             username: displayName,
+            fbid: fbid,
+            friendsList: [],
             email: email,
             photoURL: photoURL
         })
@@ -25,7 +26,6 @@ export const writeUserData = ({ displayName, email, photoURL, uid }) => dispatch
                 .database().ref('users/' + uid + '/status/')
                 .onDisconnect()
                 .set('offline')
-            console.log('poop')
         })
         .then(() => {
             dispatch({
@@ -42,15 +42,16 @@ export const writeUserData = ({ displayName, email, photoURL, uid }) => dispatch
         })
 }
 
-export const writeUserDataLocal = ({ photoURL, uid }) => {
+export const writeUserDataLocal = ({ photoURL, uid }, fbid) => {
     return {
         type: DB_SET_SUCCESS,
         photoURL: photoURL,
+        fbid: fbid,
         uid: uid
     }
 }
 
-export const addRound = () => dispatch => {
+export const addRound = () => (dispatch, getState) => {
     dispatch({
         type: DB_SET_REQUEST
     })
@@ -58,7 +59,7 @@ export const addRound = () => dispatch => {
     let newRoundRef = firebase
         .database()
         .ref('users/'
-            + store.getState().authentication.user._user.uid
+            + getState().authentication.user._user.uid
             + '/rounds/')
         .push()
 
@@ -69,9 +70,9 @@ export const addRound = () => dispatch => {
     }
 
     newRoundRef.set({
-            name: newRound.name,
-            number: newRound.number
-        })
+        name: newRound.name,
+        number: newRound.number
+    })
         .then(() => {
             dispatch({
                 type: DB_SET_SUCCESS,
@@ -86,14 +87,14 @@ export const addRound = () => dispatch => {
         })
 }
 
-export const removeRound = (roundID: number) => dispatch => {
+export const removeRound = (roundID: number) => (dispatch, getState) => {
     dispatch({
         type: DB_REMOVE_REQUEST
     })
 
     firebase.database()
         .ref('users/'
-            + store.getState().authentication.user._user.uid
+            + getState().authentication.user._user.uid
             + '/rounds/'
             + roundID)
         .remove(roundID)
@@ -111,25 +112,49 @@ export const removeRound = (roundID: number) => dispatch => {
         })
 }
 
-export const setStatus = (status: string) => dispatch => {
+export const setStatus = (status: string) => (dispatch, getState) => {
     dispatch({
-        type: DB_SET_REQUEST
+        type: DB_SET_REQUEST,
+        method: 'setStatus'
     })
 
     const statusRef = firebase.database()
-        .ref('users/' + store.getState().authentication.user._user.uid + '/status/')
+        .ref('users/' + getState().authentication.user._user.uid + '/status/')
 
     statusRef.set(status)
         .then(() => {
             statusRef
                 .onDisconnect()
                 .set('offline')
-            // console.log('status listener set')
         })
         .then(() => {
             dispatch({
                 type: DB_SET_SUCCESS,
                 status: status
+            })
+        })
+        .catch(error => {
+            dispatch({
+                type: DB_SET_FAILURE,
+                error: error
+            })
+        })
+}
+
+export const setFriendsList = list => (dispatch, getState) => {
+    dispatch({
+        type: DB_SET_REQUEST,
+        method: 'setFriendsList'
+    })
+
+    const friendsRef = firebase.database()
+        .ref('users/' + getState().authentication.user._user.uid + '/friends/')
+
+    friendsRef.set(list)
+        .then(() => {
+            dispatch({
+                type: DB_SET_SUCCESS,
+                friendsList: list
             })
         })
         .catch(error => {

@@ -1,10 +1,10 @@
 import firebase from 'react-native-firebase'
-import {
-    Actions
-} from 'react-native-router-flux'
+import { Actions } from 'react-native-router-flux'
 import {
     AccessToken,
-    LoginManager
+    LoginManager,
+    GraphRequest,
+    GraphRequestManager
 } from 'react-native-fbsdk'
 import SplashScreen from 'react-native-splash-screen'
 import {
@@ -17,12 +17,15 @@ import {
     AUTH_CHECK_REQUEST,
     AUTH_CHECK_SUCCESS,
     AUTH_CHECK_FAILURE,
-    SLIDE_INDEX_CHANGED
+    GRAPH_QUERY_REQUEST,
+    GRAPH_QUERY_SUCCESS,
+    GRAPH_QUERY_FAILURE
 } from '../modules/constants'
 import {
     writeUserData,
     writeUserDataLocal,
-    setStatus
+    setStatus,
+    setFriendsList
 } from '../actions/dbActions'
 
 export const login = () => dispatch => {
@@ -30,8 +33,20 @@ export const login = () => dispatch => {
         type: LOGIN_REQUEST
     })
 
-    LoginManager
-        .logInWithReadPermissions(['public_profile', 'email'])
+    function dispatchActions(user) {
+        dispatch(writeUserData(user._user, token.userID)).then(() => {
+            dispatch(getFriendsList())
+            dispatch(setStatus('online'))
+        })
+    }
+
+    let token
+
+    LoginManager.logInWithReadPermissions([
+        'public_profile',
+        'email',
+        'user_friends'
+    ])
         .then(result => {
             if (!result.isCancelled) {
                 // get the access token
@@ -39,14 +54,17 @@ export const login = () => dispatch => {
             } else {
                 dispatch({
                     type: LOGIN_FAILURE,
-                    payload: 'Login cancelled'
+                    error: 'Login cancelled'
                 })
             }
         })
         .then(data => {
             if (data) {
+                token = data
                 // create a new firebase credential with the token
-                const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken)
+                const credential = firebase.auth.FacebookAuthProvider.credential(
+                    data.accessToken
+                )
                 // login with credential
                 return firebase.auth().signInWithCredential(credential)
             }
@@ -54,16 +72,17 @@ export const login = () => dispatch => {
         .then(user => {
             if (user) {
                 // If user does not exist in DB then add new entry
-                firebase.database().ref('users/').once('value', snapshot => {
-                    snapshot.hasChild(user.uid) || dispatch(writeUserData(user._user))
-                })
-                .then(() => {
-                    dispatch(setStatus('online'))
-                })
+                firebase
+                    .database()
+                    .ref('users/')
+                    .once('value', snapshot => {
+                        snapshot.hasChild(user.uid) ||
+                            dispatchActions(user)
+                    })
 
                 dispatch({
                     type: LOGIN_SUCCESS,
-                    payload: user
+                    user: user
                 })
 
                 Actions.main('reset')
@@ -83,7 +102,9 @@ export const logout = () => dispatch => {
     })
     dispatch(setStatus('offline'))
 
-    firebase.auth().signOut()
+    firebase
+        .auth()
+        .signOut()
         .then(() => {
             LoginManager.logOut()
         })
@@ -106,29 +127,38 @@ export const checkAuth = () => dispatch => {
         type: AUTH_CHECK_REQUEST
     })
 
+    let accessToken
+
+    async function dispatchActions(user) {
+        await dispatch(writeUserDataLocal(user._user, accessToken.userID))
+        dispatch(getFriendsList())
+        dispatch(setStatus('online'))
+    }
+
     AccessToken.getCurrentAccessToken()
         .then(token => {
             if (token) {
+                accessToken = token
                 firebase.auth().onAuthStateChanged(currentUser => {
                     if (currentUser) {
                         dispatch({
                             type: AUTH_CHECK_SUCCESS,
-                            payload: currentUser
+                            user: currentUser,
+                            token: accessToken
                         })
-                        dispatch(writeUserDataLocal(currentUser._user))
-                        dispatch(setStatus('online'))
+                        dispatchActions(currentUser)
                         Actions.main('reset')
                     } else {
                         dispatch({
                             type: AUTH_CHECK_FAILURE,
-                            payload: 'User not signed in'
+                            error: 'User not signed in'
                         })
                     }
                 })
             } else {
                 dispatch({
                     type: AUTH_CHECK_FAILURE,
-                    payload: 'User not signed in'
+                    error: 'User not signed in'
                 })
             }
         })
@@ -148,9 +178,36 @@ export const checkAuth = () => dispatch => {
     }, 500)
 }
 
-export const slideIndexChanged = index => {
-    return {
-        type: SLIDE_INDEX_CHANGED,
-        index: index
+export const getFriendsList = () => dispatch => {
+    const _responseInfoCallback = (error: ?Object, result: ?Object) => {
+        if (error) {
+            dispatch({
+                type: GRAPH_QUERY_FAILURE,
+                error: error
+            })
+        } else {
+            dispatch({
+                type: GRAPH_QUERY_SUCCESS,
+                result: result
+            })
+            dispatch(setFriendsList(result.data))
+        }
     }
+
+    // Create a graph request asking for user information with a callback to handle the response.
+    const infoRequest = new GraphRequest(
+        '/me/friends',
+        null,
+        _responseInfoCallback
+    )
+
+    // Start the graph request.
+    new GraphRequestManager().addRequest(infoRequest).start()
+
+    dispatch({
+        type: GRAPH_QUERY_REQUEST,
+        request: infoRequest
+    })
 }
+
+// @flow
