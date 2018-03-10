@@ -16,9 +16,8 @@ import {
     ICONS,
     COLOURS
 } from '../modules/constants'
-import TeaRound from '../components/TeaRound'
+import RoundMember from '../components/RoundMember'
 import { addRound, removeRound } from '../actions/dbActions'
-import { Actions } from 'react-native-router-flux';
 
 const buttonRadius = 20
 
@@ -63,7 +62,7 @@ const styles = StyleSheet.create({
     }
 })
 
-const NoRounds = () => (
+const NoMembers = () => (
     <View style={ [styles.container, styles.noRounds] }>
         <Image
             source={ IMAGES.LOGO_DARK }
@@ -71,54 +70,45 @@ const NoRounds = () => (
         />
         <Text
             style={ styles.text }
-        >No tea groups!</Text>
+        >No members!</Text>
         <Text
             style={ styles.text }
         >Add one below...</Text>
     </View>
 )
 
-// const AddButton = () => (
-//     <TouchableOpacity
-//         style={ styles.addButton }
-//         onPress={ this.props.onPress }
-//     >
-//         <Image source={ ICONS.PLUS } />
-//     </TouchableOpacity>
-// )
-
-class Rounds extends Component {
+class Round extends Component {
 
     constructor() {
-      super()
+        super()
 
-      this.state = {
-         hasGroups: true,
-         dataSource: new ListView.DataSource({
-           rowHasChanged: (row1, row2) => row1 !== row2
-         })
-      }
+        this.state = {
+            hasGroups: true,
+            dataSource: new ListView.DataSource({
+                rowHasChanged: (row1, row2) => row1 !== row2
+            })
+        }
 
-      this.deleteRound = this.deleteRound.bind(this)
+        this.deleteRound = this.deleteRound.bind(this)
     }
 
     listenForItems(itemsRef) {
-      itemsRef.on('value', snap => {
-        // get children as an array
-        let items = []
-        snap.forEach(child => {
-          items.push({
-            // title: child.val().name,
-            // members: child.val().members,
-            // _key: child.key,
-            ...child
-          })
-        })
+        itemsRef.on('value', snap => {
+            // get children as an array
+            let items = []
+            snap.forEach(child => {
+                items.push({
+                    name: child.val().name,
+                    fbid: child.val().fbid,
+                    photoUrl: child.val().photoUrl,
+                    _key: child.key
+                })
+            })
 
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(items)
+            this.setState({
+                dataSource: this.state.dataSource.cloneWithRows(items)
+            })
         })
-      })
     }
 
     addRound() {
@@ -131,37 +121,37 @@ class Rounds extends Component {
 
     _renderItem(item) {
         return (
-          <TeaRound
-            item={ item }
-            onPress={ Actions.round }
-          />
+            <RoundMember
+                item={ item }
+                onPress={ () => {} }
+            />
         )
     }
 
     componentDidMount() {
-        this.itemsRef = firebase.database().ref('users/' + this.props.auth.user._user.uid + '/rounds')
+        this.itemsRef = firebase.database().ref(
+            'users/' + this.props.auth.user._user.uid + '/rounds/' + this.props.data + '/members/'
+        )
         this.listenForItems(this.itemsRef)
+        console.log(this.props)
     }
 
     render() {
         return (
-            !this.state.hasGroups ? <NoRounds /> :
-            <View style={ styles.container }>
-                <ListView
-                    style={ styles.scrollView }
-                    dataSource={ this.state.dataSource }
-                    renderRow={ this._renderItem.bind(this) }
-                />
-                {/* <AddButton
-                    onPress={ this.addRound.bind(this) }
-                /> */}
-                <TouchableOpacity
-                    style={ styles.addButton }
-                    onPress={ this.addRound.bind(this) }
-                >
-                    <Image source={ ICONS.PLUS } />
-                </TouchableOpacity>
-            </View>
+            !this.state.hasGroups ? <NoMembers /> :
+                <View style={ styles.container }>
+                    <ListView
+                        style={ styles.scrollView }
+                        dataSource={ this.state.dataSource }
+                        renderRow={ this._renderItem.bind(this) }
+                    />
+                    <TouchableOpacity
+                        style={ styles.addButton }
+                        onPress={ this.addRound.bind(this) }
+                    >
+                        <Image source={ ICONS.PLUS } />
+                    </TouchableOpacity>
+                </View>
         )
     }
 }
@@ -179,4 +169,4 @@ function mapDispatchToProps(dispatch) {
     }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Rounds)
+export default connect(mapStateToProps, mapDispatchToProps)(Round)

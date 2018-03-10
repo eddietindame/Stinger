@@ -66,12 +66,16 @@ export const addRound = () => (dispatch, getState) => {
     let newRound = {
         id: newRoundRef.key,
         name: 'New round',
-        number: '0'
+        members: [{
+            fbid: getState().db.fbid,
+            name: getState().authentication.user._user.displayName,
+            photoUrl: getState().db.photoURL
+        }]
     }
 
     newRoundRef.set({
         name: newRound.name,
-        number: newRound.number
+        members: newRound.members
     })
         .then(() => {
             dispatch({

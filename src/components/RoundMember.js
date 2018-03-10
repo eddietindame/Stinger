@@ -47,22 +47,27 @@ const styles = StyleSheet.create({
 
 export default class TeaRound extends Component {
 
+    componentDidMount() {
+        console.log(this.props.item.photoUrl)
+    }
+
     render() {
         return (
             <TouchableHighlight
-                onPress={ () => this.props.onPress(this.props.item.key) }
+                onPress={ () => this.props.onPress(this.props.item._key) }
                 style={ styles.container }
             >
                 <LinearGradient
                     colors={ GRADIENTS.DARK }
                     style={ styles.inner }
                 >
-                    <View style={ styles.image }>
-                        <Image source={ ICONS.GROUP } />
-                    </View>
+                    <Image
+                        source={{ uri: this.props.item.photoUrl }}
+                        style={ styles.image }
+                    />
                     <View style={ styles.textContainer } >
-                        <Text style={ styles.text }>{ this.props.item._value.name }</Text>
-                        <Text style={ styles.text }>{ `${this.props.item._value.members.length} Member${this.props.item._value.members.length !== 1 ? 's' : ''}` }</Text>
+                        <Text style={ styles.text }>{ this.props.item.name }</Text>
+                        <Text style={ styles.text }>{ this.props.item.fbid }</Text>
                         <Text style={[ styles.text, { fontSize: 18 } ]}>Id: { this.props.item.key }</Text>
                     </View>
                 </LinearGradient>
