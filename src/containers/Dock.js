@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { StyleSheet, View, LayoutAnimation } from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { changeSlideIndex } from '../actions/swiperActions'
@@ -11,13 +11,42 @@ type Props = {
     slide: number
 }
 
+const styles = StyleSheet.create({
+    container: {
+        position: 'absolute',
+        alignSelf: 'flex-end',
+        bottom: -10,
+        right: 0,
+        left: 0,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    layout: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+})
+
 class Dock extends Component<Props> {
+
+    componentWillUpdate() {
+        LayoutAnimation.configureNext({
+            duration: 200,
+            update: {
+                type: 'linear'
+            }
+        })
+    }
 
     render() {
         return (
             // Do not display on the login screen
-            this.props.route !== 'Login' &&
-            <View style={ styles.container }>
+            <View style={[
+                styles.container,
+                { bottom: this.props.route.scene === 'main' ? -10 : -110 }
+            ]}>
                 <View style={{
                     flexDirection: 'row',
                     width: 320
@@ -52,27 +81,9 @@ class Dock extends Component<Props> {
     }
 }
 
-const styles = StyleSheet.create({
-    container: {
-        position: 'absolute',
-        alignSelf: 'flex-end',
-        bottom: -10,
-        right: 0,
-        left: 0,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    layout: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
-})
-
 function mapStateToProps(state) {
   return {
-    route: state.route.scene.title,
+    route: state.route,
     slide: state.slide.index
   }
 }
