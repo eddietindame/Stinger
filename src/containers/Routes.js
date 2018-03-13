@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Router, Scene, Actions } from 'react-native-router-flux'
+import { Router, Scene, Actions, Reducer } from 'react-native-router-flux'
 import Login from '../scenes/Login'
 import Main from '../scenes/Main'
 import Round from '../scenes/Round'
+import Friends from '../scenes/Friends'
 
-const ConnectedRouter = connect()(Router)
+// const ConnectedRouter = connect()(Router)
 
 const Scenes = Actions.create(
     <Scene key='root'>
@@ -26,22 +27,33 @@ const Scenes = Actions.create(
             component={ Round }
             title='Round'
         />
+        <Scene
+            key='friends'
+            component={ Friends }
+            title='Friends'
+        />
     </Scene>
 )
 
 class Routes extends Component {
 
+    reducerCreate(params) {
+        const defaultReducer = Reducer(params)
+
+        return (state, action) => {
+            this.props.dispatch(action)
+            return defaultReducer(state, action)
+        };
+    }
+
     render() {
         return (
-            <ConnectedRouter scenes={ Scenes } />
+            <Router
+                createReducer={ this.reducerCreate.bind(this) }
+                scenes={ Scenes }
+            />
         )
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        auth: state.authentication
-    }
-}
-
-export default connect(mapStateToProps, null)(Routes)
+export default connect()(Routes)

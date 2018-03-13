@@ -6,7 +6,8 @@
         "start": "node node_modules/react-native/local-cli/cli.js start",
         "test": "jest",
         "flow": "flow",
-        "eslint": "eslint"
+        "eslint": "eslint",
+        "refresh": "rm -rf node_modules && yarn && react-native run-android && react-native run-ios"
     },
     "dependencies": {
         "babel-core": "^6.26.0",
@@ -18,7 +19,7 @@
         "react-native-fbsdk": "github:facebook/react-native-fbsdk",
         "react-native-firebase": "^3.2.2",
         "react-native-linear-gradient": "^2.4.0",
-        "react-native-router-flux": "^3.43.0",
+        "react-native-router-flux": "^4.0.0-beta.28",
         "react-native-splash-screen": "^3.0.6",
         "react-native-swiper": "^1.5.13",
         "react-native-vector-icons": "^4.5.0",
