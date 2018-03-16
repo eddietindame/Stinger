@@ -77,6 +77,14 @@
 		F6A4FD7E19294122BAB10A51 /* Lato-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 51C7B6707679474C82E3D992 /* Lato-ThinItalic.ttf */; };
 		F6A624C6698A4F838431D8A0 /* Lato-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 98A618BEC75A47D286A09A99 /* Lato-Regular.ttf */; };
 		FAEF9AC750574B5FB40BDCBC /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D1D9D5878E9D4E078A300B9D /* Feather.ttf */; };
+		8A531EC99437433B9534C19E /* CircularStd-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = AD73D9DBE1B24DF799CF4BFE /* CircularStd-Black.otf */; };
+		50A39A999C5B4676A75096C5 /* CircularStd-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = EF6A112DEBFD44B089643D09 /* CircularStd-BlackItalic.otf */; };
+		1BF457423A144A828729EA65 /* CircularStd-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = ABC88D1715C34F78960F9251 /* CircularStd-Bold.otf */; };
+		150E08300A3E46128B85AA3A /* CircularStd-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9887F057C6AF4F10B341C5BB /* CircularStd-BoldItalic.otf */; };
+		8A6C29DA275541F28201AF02 /* CircularStd-Book.otf in Resources */ = {isa = PBXBuildFile; fileRef = 1D6BAF464FC14072B7F2CE8D /* CircularStd-Book.otf */; };
+		3E3EE5133B8A4A2C91BD5F12 /* CircularStd-BookItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = BD41A3A889FE4AF1931EB160 /* CircularStd-BookItalic.otf */; };
+		9791DD06E2E44DD4A5767D7A /* CircularStd-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0F898CF45151486DBA31ABE2 /* CircularStd-Medium.otf */; };
+		5C34B82752564C3E83573F61 /* CircularStd-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 0B1D476083F14BEFB54704B4 /* CircularStd-MediumItalic.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -469,6 +477,14 @@
 		F077F2EEA24A4161983D51FF /* Lato-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-Medium.ttf"; path = "../src/fonts/Lato-Medium.ttf"; sourceTree = "<group>"; };
 		F4E6C67C538B413A8DCAF354 /* Lato-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Lato-BoldItalic.ttf"; path = "../src/fonts/Lato-BoldItalic.ttf"; sourceTree = "<group>"; };
 		FD512EC4210046661258B195 /* Pods-StingerTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StingerTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StingerTests/Pods-StingerTests.debug.xcconfig"; sourceTree = "<group>"; };
+		AD73D9DBE1B24DF799CF4BFE /* CircularStd-Black.otf */ = {isa = PBXFileReference; name = "CircularStd-Black.otf"; path = "../src/fonts/CircularStd-Black.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		EF6A112DEBFD44B089643D09 /* CircularStd-BlackItalic.otf */ = {isa = PBXFileReference; name = "CircularStd-BlackItalic.otf"; path = "../src/fonts/CircularStd-BlackItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		ABC88D1715C34F78960F9251 /* CircularStd-Bold.otf */ = {isa = PBXFileReference; name = "CircularStd-Bold.otf"; path = "../src/fonts/CircularStd-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9887F057C6AF4F10B341C5BB /* CircularStd-BoldItalic.otf */ = {isa = PBXFileReference; name = "CircularStd-BoldItalic.otf"; path = "../src/fonts/CircularStd-BoldItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1D6BAF464FC14072B7F2CE8D /* CircularStd-Book.otf */ = {isa = PBXFileReference; name = "CircularStd-Book.otf"; path = "../src/fonts/CircularStd-Book.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BD41A3A889FE4AF1931EB160 /* CircularStd-BookItalic.otf */ = {isa = PBXFileReference; name = "CircularStd-BookItalic.otf"; path = "../src/fonts/CircularStd-BookItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0F898CF45151486DBA31ABE2 /* CircularStd-Medium.otf */ = {isa = PBXFileReference; name = "CircularStd-Medium.otf"; path = "../src/fonts/CircularStd-Medium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		0B1D476083F14BEFB54704B4 /* CircularStd-MediumItalic.otf */ = {isa = PBXFileReference; name = "CircularStd-MediumItalic.otf"; path = "../src/fonts/CircularStd-MediumItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -767,6 +783,14 @@
 				D9EF5475986043C8AD28522A /* Lato-SemiboldItalic.ttf */,
 				B019B902DA1F44F49D0DBAAC /* Lato-Thin.ttf */,
 				51C7B6707679474C82E3D992 /* Lato-ThinItalic.ttf */,
+				AD73D9DBE1B24DF799CF4BFE /* CircularStd-Black.otf */,
+				EF6A112DEBFD44B089643D09 /* CircularStd-BlackItalic.otf */,
+				ABC88D1715C34F78960F9251 /* CircularStd-Bold.otf */,
+				9887F057C6AF4F10B341C5BB /* CircularStd-BoldItalic.otf */,
+				1D6BAF464FC14072B7F2CE8D /* CircularStd-Book.otf */,
+				BD41A3A889FE4AF1931EB160 /* CircularStd-BookItalic.otf */,
+				0F898CF45151486DBA31ABE2 /* CircularStd-Medium.otf */,
+				0B1D476083F14BEFB54704B4 /* CircularStd-MediumItalic.otf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1400,6 +1424,14 @@
 				7E89516E74AF48C6BACFC8CA /* Lato-SemiboldItalic.ttf in Resources */,
 				EA830A62F0594D5F85017095 /* Lato-Thin.ttf in Resources */,
 				F6A4FD7E19294122BAB10A51 /* Lato-ThinItalic.ttf in Resources */,
+				8A531EC99437433B9534C19E /* CircularStd-Black.otf in Resources */,
+				50A39A999C5B4676A75096C5 /* CircularStd-BlackItalic.otf in Resources */,
+				1BF457423A144A828729EA65 /* CircularStd-Bold.otf in Resources */,
+				150E08300A3E46128B85AA3A /* CircularStd-BoldItalic.otf in Resources */,
+				8A6C29DA275541F28201AF02 /* CircularStd-Book.otf in Resources */,
+				3E3EE5133B8A4A2C91BD5F12 /* CircularStd-BookItalic.otf in Resources */,
+				9791DD06E2E44DD4A5767D7A /* CircularStd-Medium.otf in Resources */,
+				5C34B82752564C3E83573F61 /* CircularStd-MediumItalic.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
