@@ -26,11 +26,13 @@ const Scenes = Actions.create(
             key='round'
             component={ Round }
             title='Round'
+            hideNavBar
         />
         <Scene
             key='friends'
             component={ Friends }
             title='Friends'
+            hideNavBar
         />
     </Scene>
 )

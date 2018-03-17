@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
 })
 
 class Dock extends Component<Props> {
-
     componentWillUpdate() {
         LayoutAnimation.configureNext({
             duration: 200,
@@ -45,7 +44,8 @@ class Dock extends Component<Props> {
             // Do not display on the login screen
             <View style={[
                 styles.container,
-                { bottom: this.props.route.scene === 'main' ? -10 : -110 }
+                { bottom: this.props.route.scene === 'main' ? -10 : -110,
+                  bottom: this.props.slide.dockHidden ? -110 : -10 }
             ]}>
                 <View style={{
                     flexDirection: 'row',
@@ -53,25 +53,25 @@ class Dock extends Component<Props> {
                 }}>
                     <View style={ styles.layout }>
                         <DockButton
-                            colour={ COLOURS.LIGHT_GREEN }
-                            focused={ this.props.slide === 0 }
-                            icon={ ICONS.GROUP_OUTLINE }
+                            colour={ COLOURS.LIGHT_BLUE }
+                            focused={ this.props.slide.index === 0 }
+                            icon={ ICONS.USER_OUTLINE }
                             onPress={ () => { this.props.changeSlideIndex(0) } }
                         />
                     </View>
                     <View style={ styles.layout }>
                         <DockButton
                             colour={ COLOURS.YELLOW }
-                            focused={ this.props.slide === 1 }
+                            focused={ this.props.slide.index === 1 }
                             icon={ ICONS.BUZZ }
                             onPress={ () => { this.props.changeSlideIndex(1) } }
                         />
                     </View>
                     <View style={ styles.layout }>
                         <DockButton
-                            colour={ COLOURS.LIGHT_BLUE }
-                            focused={ this.props.slide === 2 }
-                            icon={ ICONS.USER_OUTLINE }
+                            colour={ COLOURS.LIGHT_GREEN }
+                            focused={ this.props.slide.index === 2 }
+                            icon={ ICONS.GROUP_OUTLINE }
                             onPress={ () => { this.props.changeSlideIndex(2) } }
                         />
                     </View>
@@ -84,7 +84,7 @@ class Dock extends Component<Props> {
 function mapStateToProps(state) {
   return {
     route: state.route,
-    slide: state.slide.index
+    slide: state.slide
   }
 }
 

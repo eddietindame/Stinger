@@ -1,12 +1,15 @@
 import {
     CHANGE_SLIDE_INDEX,
-    SLIDE_INDEX_CHANGED
+    SLIDE_INDEX_CHANGED,
+    DOCK_HIDE,
+    DOCK_SHOW
 } from '../modules/constants'
 
 const initialState = {
     changed: false,
-    index: 0,
-    newIndex: 0
+    index: 2,
+    newIndex: 2,
+    dockHidden: false
 }
 
 export default (state = initialState, { type, index }) => {
@@ -22,6 +25,16 @@ export default (state = initialState, { type, index }) => {
                 ...state,
                 changed: true,
                 index: index
+            }
+        case DOCK_HIDE:
+            return {
+                ...state,
+                dockHidden: true
+            }
+        case DOCK_SHOW:
+            return {
+                ...state,
+                dockHidden: false
             }
         default:
             return state
