@@ -44,8 +44,11 @@ class Dock extends Component<Props> {
             // Do not display on the login screen
             <View style={[
                 styles.container,
-                { bottom: this.props.route.scene === 'main' ? -10 : -110,
-                  bottom: this.props.slide.dockHidden ? -110 : -10 }
+                { bottom: this.props.route.scene === 'main'
+                    ? this.props.slide.dockHidden
+                        ? -110
+                        : -10
+                    : -110 }
             ]}>
                 <View style={{
                     flexDirection: 'row',
