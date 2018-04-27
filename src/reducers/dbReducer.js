@@ -3,8 +3,9 @@ import {
     DB_SET_SUCCESS,
     DB_SET_FAILURE,
     DB_REMOVE_REQUEST,
-    // DB_REMOVE_SUCCESS,
+    DB_REMOVE_SUCCESS,
     DB_REMOVE_FAILURE,
+    DB_WIPE_SUCCESS
     // AUTH_CHECK_REQUEST,
     // AUTH_CHECK_SUCCESS,
     // AUTH_CHECK_FAILURE,
@@ -44,13 +45,16 @@ export default (state = initialState, action) => {
                 status: action.status || state.status,
                 error: null
             }
-        // case DB_REMOVE_SUCCESS:
-        //     return {
-        //         ...state,
-        //         isQuerying: false,
-        //         uid: null,
-        //         error: null
-        //     }
+        case DB_REMOVE_SUCCESS:
+            return {
+                ...state,
+                isQuerying: false,
+                uid: action.uid ? null : state.uid,
+                rounds: action.round ? null : state.rounds,
+                error: null
+            }
+        case DB_WIPE_SUCCESS:
+            return initialState
         case DB_SET_FAILURE:
         case DB_REMOVE_FAILURE:
         // case AUTH_CHECK_FAILURE:

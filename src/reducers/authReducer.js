@@ -54,13 +54,7 @@ export default (state = initialState, action) => {
         }
     case LOGOUT_SUCCESS:
     case DELETE_SUCCESS:
-        return {
-            ...state,
-            isAuthenticating: false,
-            user: null,
-            token: null,
-            error: null
-        }
+        return initialState
     case LOGIN_FAILURE:
     case LOGOUT_FAILURE:
     case AUTH_CHECK_FAILURE:

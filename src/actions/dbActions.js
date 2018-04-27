@@ -5,7 +5,8 @@ import {
     DB_SET_FAILURE,
     DB_REMOVE_REQUEST,
     DB_REMOVE_SUCCESS,
-    DB_REMOVE_FAILURE
+    DB_REMOVE_FAILURE,
+    DB_WIPE_SUCCESS
 } from '../modules/constants'
 
 export const writeUserData = ({ displayName, email, photoURL, uid }, fbid) => async dispatch => {
@@ -49,6 +50,32 @@ export const writeUserDataLocal = ({ photoURL, uid }, fbid) => {
         fbid: fbid,
         uid: uid
     }
+}
+
+export const deleteUser = () => (dispatch, getState) => {
+    const uid = getState().authentication.user._user.uid
+
+    dispatch({
+        type: DB_REMOVE_REQUEST,
+        method: removeRound
+    })
+
+    const globalRef = firebase.database()
+        .ref('/users/' + uid)
+
+    globalRef.remove()
+        .then(() => {
+            dispatch({
+                type: DB_WIPE_SUCCESS,
+                user: uid
+            })
+        })
+        .catch(error => {
+            dispatch({
+                type: DB_REMOVE_FAILURE,
+                error: error
+            })
+        })
 }
 
 export const addRound = () => (dispatch, getState) => {

@@ -28,7 +28,8 @@ import {
     writeUserData,
     writeUserDataLocal,
     setStatus,
-    setFriendsList
+    setFriendsList,
+    deleteUser
 } from '../actions/dbActions'
 
 export const login = () => dispatch => {
@@ -224,6 +225,7 @@ export const deleteAccount = () => dispatch => {
             dispatch({
                 type: DELETE_SUCCESS
             })
+            dispatch(deleteUser())
             Actions.login('reset')
         })
         .catch(error => {
@@ -239,10 +241,8 @@ export const deleteAccount = () => dispatch => {
 export const reauthenticateUser = callback => dispatch => {
     dispatch({
         type: LOGIN_REQUEST,
-        method: 'reauthenticateUser'
+        method: reauthenticateUser
     })
-
-    console.log('1')
 
     LoginManager.logInWithReadPermissions([
         'public_profile',
@@ -251,7 +251,6 @@ export const reauthenticateUser = callback => dispatch => {
     ])
         .then(result => {
             if (!result.isCancelled) {
-                console.log('2')
                 // get the access token
                 return AccessToken.getCurrentAccessToken()
             } else {
@@ -263,7 +262,6 @@ export const reauthenticateUser = callback => dispatch => {
         })
         .then(data => {
             if (data) {
-                console.log('3')
                 // create a new firebase credential with the token
                 const credential = firebase.auth.FacebookAuthProvider.credential(
                     data.accessToken
@@ -272,15 +270,13 @@ export const reauthenticateUser = callback => dispatch => {
                 return firebase.auth().currentUser
                     .reauthenticateWithCredential(credential)
                         .then(() => {
-                            console.log('4')
                             dispatch({ type: LOGIN_SUCCESS })
                             dispatch(callback())
                         })
                         .catch(error => {
                             dispatch({
                                 type: LOGIN_FAILURE,
-                                error: error,
-                                poop: true
+                                error: error
                             })
                         })
             }
@@ -288,8 +284,7 @@ export const reauthenticateUser = callback => dispatch => {
         .catch(error => {
             dispatch({
                 type: LOGIN_FAILURE,
-                error: error,
-                poopy: rue
+                error: error
             })
         })
 }
