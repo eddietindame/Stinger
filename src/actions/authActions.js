@@ -14,6 +14,9 @@ import {
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
     LOGOUT_FAILURE,
+    DELETE_REQUEST,
+    DELETE_SUCCESS,
+    DELETE_FAILURE,
     AUTH_CHECK_REQUEST,
     AUTH_CHECK_SUCCESS,
     AUTH_CHECK_FAILURE,
@@ -208,6 +211,87 @@ export const getFriendsList = () => dispatch => {
         type: GRAPH_QUERY_REQUEST,
         request: infoRequest
     })
+}
+
+export const deleteAccount = () => dispatch => {
+    dispatch({
+        type: DELETE_REQUEST
+    })
+
+    firebase.auth().currentUser
+        .delete()
+        .then(() => {
+            dispatch({
+                type: DELETE_SUCCESS
+            })
+            Actions.login('reset')
+        })
+        .catch(error => {
+            dispatch({
+                type: DELETE_FAILURE,
+                error: error
+            })
+
+            dispatch(reauthenticateUser(deleteAccount))
+        })
+}
+
+export const reauthenticateUser = callback => dispatch => {
+    dispatch({
+        type: LOGIN_REQUEST,
+        method: 'reauthenticateUser'
+    })
+
+    console.log('1')
+
+    LoginManager.logInWithReadPermissions([
+        'public_profile',
+        'email',
+        'user_friends'
+    ])
+        .then(result => {
+            if (!result.isCancelled) {
+                console.log('2')
+                // get the access token
+                return AccessToken.getCurrentAccessToken()
+            } else {
+                dispatch({
+                    type: LOGIN_FAILURE,
+                    error: 'Login cancelled'
+                })
+            }
+        })
+        .then(data => {
+            if (data) {
+                console.log('3')
+                // create a new firebase credential with the token
+                const credential = firebase.auth.FacebookAuthProvider.credential(
+                    data.accessToken
+                )
+                // login with credential
+                return firebase.auth().currentUser
+                    .reauthenticateWithCredential(credential)
+                        .then(() => {
+                            console.log('4')
+                            dispatch({ type: LOGIN_SUCCESS })
+                            dispatch(callback())
+                        })
+                        .catch(error => {
+                            dispatch({
+                                type: LOGIN_FAILURE,
+                                error: error,
+                                poop: true
+                            })
+                        })
+            }
+        })
+        .catch(error => {
+            dispatch({
+                type: LOGIN_FAILURE,
+                error: error,
+                poopy: rue
+            })
+        })
 }
 
 // @flow

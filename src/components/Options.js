@@ -7,13 +7,12 @@ import {
 import LinearGradient from 'react-native-linear-gradient'
 import { COLOURS, GRADIENTS } from '../modules/constants'
 import LoginButton from '../containers/LoginButton'
+import DeleteButton from '../containers/DeleteButton'
 
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
         justifyContent: 'flex-end',
-        // flex: 1,
-        // top: 0,
         bottom: 0,
         left: 0,
         right: 0
@@ -36,7 +35,6 @@ export default class Options extends Component {
   render() {
     return (
       <LinearGradient
-        // colors={ GRADIENTS.FACEBOOK_BLUE }
         colors={[ 'transparent', COLOURS.BLACK ]}
         style={[
             styles.container,
@@ -50,7 +48,7 @@ export default class Options extends Component {
             <LoginButton />
         </View>
         <View  style={{ marginBottom: 20 }}>
-            <LoginButton />
+            <DeleteButton />
         </View>
       </LinearGradient>
     )

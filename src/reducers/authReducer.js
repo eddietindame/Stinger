@@ -5,6 +5,9 @@ import {
     LOGOUT_REQUEST,
     LOGOUT_SUCCESS,
     LOGOUT_FAILURE,
+    DELETE_REQUEST,
+    DELETE_SUCCESS,
+    DELETE_FAILURE,
     AUTH_CHECK_REQUEST,
     AUTH_CHECK_SUCCESS,
     AUTH_CHECK_FAILURE,
@@ -25,6 +28,7 @@ export default (state = initialState, action) => {
     switch (action.type) {
     case LOGIN_REQUEST:
     case LOGOUT_REQUEST:
+    case DELETE_REQUEST:
     case AUTH_CHECK_REQUEST:
     case GRAPH_QUERY_REQUEST:
         return {
@@ -49,6 +53,7 @@ export default (state = initialState, action) => {
             error: null
         }
     case LOGOUT_SUCCESS:
+    case DELETE_SUCCESS:
         return {
             ...state,
             isAuthenticating: false,
@@ -59,6 +64,7 @@ export default (state = initialState, action) => {
     case LOGIN_FAILURE:
     case LOGOUT_FAILURE:
     case AUTH_CHECK_FAILURE:
+    case DELETE_FAILURE:
     case GRAPH_QUERY_FAILURE:
         return {
             ...state,
