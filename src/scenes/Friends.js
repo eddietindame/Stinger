@@ -18,7 +18,7 @@ import {
     COLOURS
 } from '../modules/constants'
 import Friend from '../components/Friend'
-import { addMember, removeMember } from '../actions/dbActions'
+import { addMember } from '../actions/dbActions'
 
 const buttonRadius = 20
 
@@ -71,10 +71,7 @@ const NoFriends = () => (
         />
         <Text
             style={ styles.text }
-        >No Friends!</Text>
-        <Text
-            style={ styles.text }
-        >Add one below...</Text>
+        >None of your friends use stinger!</Text>
     </View>
 )
 
@@ -84,13 +81,11 @@ class Friends extends Component {
         super()
 
         this.state = {
-            hasGroups: true,
+            hasFriends: true,
             dataSource: new ListView.DataSource({
                 rowHasChanged: (row1, row2) => row1 !== row2
             })
         }
-
-        this.removeMember = this.removeMember.bind(this)
     }
 
     listenForItems(itemsRef) {
@@ -99,7 +94,7 @@ class Friends extends Component {
             let items = []
             // console.log(snap)
             snap.forEach(child => {
-                console.log(child)
+                // console.log(child)
                 items.push({
                     name: child.val().name,
                     fbid: child.val().id,
@@ -109,18 +104,10 @@ class Friends extends Component {
             })
 
             this.setState({
+                hasFriends: items.length === 0 ? false : true,
                 dataSource: this.state.dataSource.cloneWithRows(items)
             })
         })
-    }
-
-    addMember(roundId, fbid, name, photoUrl) {
-        // console.log(roundId, fbid, name, photoUrl)
-        this.props.addMember(roundId, fbid, name, photoUrl)
-    }
-
-    removeMember(roundId) {
-        this.props.removeMember(roundId)
     }
 
     _renderItem(item) {
@@ -129,7 +116,7 @@ class Friends extends Component {
                 item={ item }
                 onPress={() => {
                     console.log(item)
-                    this.addMember(this.props.data, item.fbid, item.name, item.photoUrl)
+                    this.props.addMember(this.props.data, item.fbid)
                 }}
             />
         )
@@ -144,8 +131,9 @@ class Friends extends Component {
 
     render() {
         return (
-            !this.state.hasGroups ? <NoFriends /> :
-                <View style={ styles.container }>
+            !this.state.hasFriends
+                ? <NoFriends />
+                : <View style={ styles.container }>
                     <ListView
                         style={ styles.scrollView }
                         dataSource={ this.state.dataSource }
@@ -164,8 +152,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        addMember: addMember,
-        removeMember: removeMember
+        addMember: addMember
     }, dispatch)
 }
 

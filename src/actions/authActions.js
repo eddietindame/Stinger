@@ -7,7 +7,7 @@ import {
     GraphRequestManager
 } from 'react-native-fbsdk'
 import SplashScreen from 'react-native-splash-screen'
-import _ from 'lodash'
+import { filter } from 'lodash'
 import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
@@ -38,15 +38,9 @@ export const login = () => dispatch => {
         type: LOGIN_REQUEST
     })
 
-    function dispatchActions(user) {
-        dispatch(writeUserData(user._user, token.userID)).then(() => {
-            dispatch(getFriendsList())
-            dispatch(setStatus('online'))
-        })
-    }
-
     let token
 
+    // Get access token from Facebook
     LoginManager.logInWithReadPermissions([
         'public_profile',
         'email',
@@ -87,11 +81,12 @@ export const login = () => dispatch => {
                     .once('value', snapshot => {
                         // If user does not exist in DB then add new entry
                         if(!snapshot.hasChild(user.uid))
-                            dispatchActions(user)
+                            dispatch(writeUserData(user._user, token.userID))
+                        else
+                            dispatch(setStatus('online'))
                     })
                         .then(() => {
-                            console.log('poop')
-                            dispatch(setStatus('online'))
+                            dispatch(getFriendsList())
                             Actions.main('reset')
                         })
             }
@@ -187,7 +182,7 @@ export const checkAuth = () => dispatch => {
 }
 
 export const getFriendsList = () => dispatch => {
-    const users = firebase.ref('users').toJSON()
+    const users = firebase.database().ref('users')
 
     const _responseInfoCallback = (error: ?Object, result: ?Object) => {
         if (error) {

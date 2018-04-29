@@ -13,7 +13,7 @@ import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
 import firebase from 'react-native-firebase'
 import LinearGradient from 'react-native-linear-gradient'
-import { addMember, removeRound } from '../actions/dbActions'
+import { removeMember } from '../actions/dbActions'
 import {
     IMAGES,
     ICONS,
@@ -78,8 +78,6 @@ class Round extends Component {
                 rowHasChanged: (row1, row2) => row1 !== row2
             })
         }
-
-        this.deleteRound = this.deleteRound.bind(this)
     }
 
     listenForItems(itemsRef) {
@@ -87,11 +85,13 @@ class Round extends Component {
             // get children as an array
             let items = []
             snap.forEach(child => {
+                const { name, uid, fbid, photoUrl } = child.val()
+
                 items.push({
-                    name: child.val().name,
-                    fbid: child.val().fbid,
-                    photoUrl: child.val().photoUrl,
-                    _key: child.key
+                    name,
+                    fbid,
+                    photoUrl,
+                    key: child.key
                 })
             })
 
@@ -102,19 +102,16 @@ class Round extends Component {
     }
 
     showFriends() {
-        // this.props.addMember()
         Actions.friends(this.props.data)
-    }
-
-    deleteRound(roundId) {
-        this.props.removeRound(roundId)
     }
 
     _renderItem(item) {
         return (
             <RoundMember
                 item={ item }
-                onPress={ () => {} }
+                onPress={() => {
+                    this.props.removeMember(item.key, this.props.data)
+                }}
             />
         )
     }
@@ -128,8 +125,9 @@ class Round extends Component {
 
     render() {
         return (
-            !this.state.hasGroups ? <NoMembers /> :
-                <LinearGradient
+            !this.state.hasGroups
+                ? <NoMembers />
+                : <LinearGradient
                     colors={GRADIENTS.STINGER_YELLOW}
                     style={styles.container}
                 >
@@ -158,8 +156,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        addMember: addMember,
-        removeRound: removeRound
+        removeMember: removeMember
     }, dispatch)
 }
 

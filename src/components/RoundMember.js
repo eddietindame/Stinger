@@ -47,9 +47,9 @@ const styles = StyleSheet.create({
 
 export default class TeaRound extends Component {
 
-    componentDidMount() {
-        console.log(this.props.item.photoUrl)
-    }
+    // componentDidMount() {
+    //     console.log(this.props.item.photoUrl)
+    // }
 
     render() {
         return (

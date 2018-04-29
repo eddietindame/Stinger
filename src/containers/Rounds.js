@@ -71,13 +71,11 @@ class Rounds extends Component {
       super()
 
       this.state = {
-         hasGroups: true,
+         hasRounds: true,
          dataSource: new ListView.DataSource({
            rowHasChanged: (row1, row2) => row1 !== row2
          })
       }
-
-      this.deleteRound = this.deleteRound.bind(this)
     }
 
     listenForItems(itemsRef) {
@@ -89,22 +87,14 @@ class Rounds extends Component {
             name: child.val().name,
             members: child.val().members,
             key: child.key
-            // ...child
           })
         })
 
         this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(items)
+            hasRows: items.length === 0 ? false : true,
+            dataSource: this.state.dataSource.cloneWithRows(items)
         })
       })
-    }
-
-    addRound() {
-        this.props.addRound()
-    }
-
-    deleteRound(roundID) {
-        this.props.removeRound(roundID)
     }
 
     _renderItem(item) {
@@ -117,27 +107,28 @@ class Rounds extends Component {
     }
 
     componentDidMount() {
-        this.itemsRef = firebase.database().ref('users/' + this.props.auth.user._user.uid + '/rounds')
+        this.itemsRef = firebase.database().ref(`users/${this.props.auth.user._user.uid}/rounds`)
         this.listenForItems(this.itemsRef)
     }
 
     render() {
         return (
-            !this.state.hasGroups ? <NoRounds /> :
-            <View style={ styles.container }>
-                <ListView
-                    style={ styles.scrollView }
-                    dataSource={ this.state.dataSource }
-                    renderRow={ this._renderItem.bind(this) }
-                />
-                <Button
-                    style={ styles.addButton }
-                    onPress={ this.addRound.bind(this) }
-                    radius={ 20 }
-                    colour='white'
-                    icon={ ICONS.PLUS }
-                />
-            </View>
+            !this.state.hasRounds
+                ? <NoRounds />
+                : <View style={ styles.container }>
+                    <ListView
+                        style={ styles.scrollView }
+                        dataSource={ this.state.dataSource }
+                        renderRow={ this._renderItem.bind(this) }
+                    />
+                    <Button
+                        style={ styles.addButton }
+                        onPress={ this.props.addRound.bind(this) }
+                        radius={ 20 }
+                        colour='white'
+                        icon={ ICONS.PLUS }
+                    />
+                </View>
         )
     }
 }

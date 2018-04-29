@@ -8,6 +8,7 @@ import {
     DB_REMOVE_FAILURE,
     DB_WIPE_SUCCESS
 } from '../modules/constants'
+import { filter } from 'lodash'
 
 export const writeUserData = ({ displayName, email, photoURL, uid }, fbid) => async dispatch => {
     dispatch({
@@ -19,9 +20,11 @@ export const writeUserData = ({ displayName, email, photoURL, uid }, fbid) => as
         .database().ref('users/' + uid).set({
             username: displayName,
             fbid: fbid,
+            uid: uid,
             friendsList: [],
             email: email,
-            photoURL: photoURL
+            photoURL: photoURL,
+            status: 'online'
         })
         .then(() => {
             firebase
@@ -176,37 +179,148 @@ export const removeRound = (roundID: number) => (dispatch, getState) => {
                 error: error
             })
         })
+
+    localRef.remove()
+        .then(() => {
+            dispatch({
+                type: DB_REMOVE_SUCCESS,
+                round: roundID
+            })
+        })
+        .catch(error => {
+            dispatch({
+                type: DB_REMOVE_FAILURE,
+                error: error
+            })
+        })
 }
 
-export const addMember = (roundId, fbid, name, photoUrl) => (dispatch, getState) => {
+export const addMember = (roundId, fbid) => (dispatch, getState) => {
     dispatch({
         type: DB_SET_REQUEST,
         method: 'addMember'
     })
 
-    let newMemberRef = firebase
+    let friend, newMemberRef, newMember
+
+    firebase
         .database()
+        .ref('users/')
+        .once('value', snapshot => {
+            friend = filter(snapshot.val(), ['fbid', fbid])[0]
+            console.log('search', friend)
+        })
+            .then(() => {
+                newMemberRef = firebase
+                    .database()
+                    .ref('/rounds/'
+                        + roundId
+                        + '/members/'
+                        + friend.uid)
+
+                newMember = {
+                    fbid: fbid,
+                    uid: friend.uid,
+                    name: friend.username
+                }
+
+                newMemberRef.set(newMember)
+                    .then(() => {
+                        dispatch({
+                            type: DB_SET_SUCCESS,
+                            member: newMember
+                        })
+                        dispatch(updateUserWithNewRound(friend.uid, roundId))
+                    })
+                    .catch(error => {
+                        dispatch({
+                            type: DB_SET_FAILURE,
+                            error: error
+                        })
+                    })
+            })
+}
+
+export const removeMember = (uid, roundId) => dispatch => {
+    dispatch({
+        type: DB_REMOVE_REQUEST,
+        method: 'removeMember'
+    })
+
+    const globalRef = firebase.database()
         .ref('/rounds/'
             + roundId
-            + '/members')
-        .push()
+            + '/members/'
+            + uid)
 
-    let newMember = {
-        fbid: fbid,
-        name: name,
-        photoUrl: photoUrl
-    }
+    globalRef.remove()
+        .then(() => {
+            dispatch({
+                type: DB_REMOVE_SUCCESS,
+                round: roundId
+            })
+            dispatch(updateUserRemoveRound(uid, roundId))
+        })
+        .catch(error => {
+            dispatch({
+                type: DB_REMOVE_FAILURE,
+                error: error
+            })
+        })
+}
 
-    newMemberRef.set(newMember)
+export const updateUserWithNewRound = (uid, roundId) => dispatch => {
+    dispatch({
+        type: DB_SET_REQUEST,
+        method: 'updateUserWithNewRound'
+    })
+
+    const newMemberRef = firebase
+        .database()
+        .ref('/users/'
+            + uid
+            + '/rounds/')
+
+    newMemberRef.set({
+        [roundId]: true
+    })
         .then(() => {
             dispatch({
                 type: DB_SET_SUCCESS,
-                member: newMember
+                member: uid
             })
         })
         .catch(error => {
             dispatch({
                 type: DB_SET_FAILURE,
+                error: error
+            })
+        })
+}
+
+export const updateUserRemoveRound = (uid, roundId) => dispatch => {
+    dispatch({
+        type: DB_REMOVE_REQUEST,
+        method: 'updateUserRemoveRound'
+    })
+
+    const memberRef = firebase
+        .database()
+        .ref('/users/'
+            + uid
+            + '/rounds/'
+            + roundId)
+
+    memberRef.remove()
+        .then(() => {
+            dispatch({
+                type: DB_REMOVE_SUCCESS,
+                round: roundId
+            })
+        })
+        .catch(error => {
+            dispatch({
+                type: DB_REMOVE_FAILURE,
                 error: error
             })
         })
