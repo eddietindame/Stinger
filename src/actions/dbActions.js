@@ -11,7 +11,8 @@ import {
 
 export const writeUserData = ({ displayName, email, photoURL, uid }, fbid) => async dispatch => {
     dispatch({
-        type: DB_SET_REQUEST
+        type: DB_SET_REQUEST,
+        method: writeUserData
     })
 
     return await firebase
@@ -80,55 +81,89 @@ export const deleteUser = () => (dispatch, getState) => {
 
 export const addRound = () => (dispatch, getState) => {
     dispatch({
-        type: DB_SET_REQUEST
+        type: DB_SET_REQUEST,
+        method: addRound
     })
 
-    let newRoundRef = firebase
-        .database()
+    const newRoundGlobalRef = firebase.database()
+        .ref('rounds')
+        .push()
+
+    const newRoundUserRef = firebase.database()
         .ref('users/'
             + getState().authentication.user._user.uid
             + '/rounds/')
         .push()
 
-    let newRound = {
-        id: newRoundRef.key,
+    const newRound = {
+        id: newRoundGlobalRef.key,
         name: 'New round',
         members: [{
             fbid: getState().db.fbid,
             name: getState().authentication.user._user.displayName,
-            photoUrl: getState().db.photoURL
+            photoUrl: getState().db.photoURL,
+            admin: true
         }]
     }
-
-    newRoundRef.set({
-        name: newRound.name,
-        members: newRound.members
-    })
-        .then(() => {
-            dispatch({
-                type: DB_SET_SUCCESS,
-                rounds: newRound
-            })
-        })
-        .catch(error => {
-            dispatch({
-                type: DB_SET_FAILURE,
-                error: error
-            })
-        })
-}
-
-export const removeRound = (roundID: number) => (dispatch, getState) => {
-    dispatch({
-        type: DB_REMOVE_REQUEST
-    })
 
     firebase.database()
         .ref('users/'
             + getState().authentication.user._user.uid
             + '/rounds/'
+            + newRoundGlobalRef.key)
+        .set(true)
+
+    newRoundGlobalRef.set({
+        name: newRound.name,
+        members: []
+    })
+        .then(() => {
+            // const newRoundMembersRef = firebase.database()
+            //     .ref('users/'
+            //         + getState().authentication.user._user.uid
+            //         + '/rounds/'
+            //         + newRoundGlobalRef.key
+            //         + '/members/')
+            //     .push()
+            const newRoundMembersRef = firebase.database()
+                .ref('rounds/'
+                    + newRoundGlobalRef.key
+                    + '/members/'
+                    + getState().authentication.user._user.uid)
+
+            newRoundMembersRef.set(newRound.members[0])
+                .then(() => {
+                    dispatch({
+                        type: DB_SET_SUCCESS,
+                        rounds: newRound
+                    })
+                })
+                .catch(error => {
+                    dispatch({
+                        type: DB_SET_FAILURE,
+                        error: error
+                    })
+                })
+        })
+}
+
+export const removeRound = (roundID: number) => (dispatch, getState) => {
+    dispatch({
+        type: DB_REMOVE_REQUEST,
+        method: removeRound
+    })
+
+    const globalRef = firebase.database()
+        .ref('/rounds/'
             + roundID)
-        .remove(roundID)
+
+    const localRef = firebase.database()
+        .ref('users/'
+            + getState().authentication.user._user.uid
+            + '/rounds/'
+            + roundID)
+
+    globalRef.remove()
         .then(() => {
             dispatch({
                 type: DB_REMOVE_SUCCESS,
@@ -138,6 +173,40 @@ export const removeRound = (roundID: number) => (dispatch, getState) => {
         .catch(error => {
             dispatch({
                 type: DB_REMOVE_FAILURE,
+                error: error
+            })
+        })
+}
+
+export const addMember = (roundId, fbid, name, photoUrl) => (dispatch, getState) => {
+    dispatch({
+        type: DB_SET_REQUEST,
+        method: 'addMember'
+    })
+
+    let newMemberRef = firebase
+        .database()
+        .ref('/rounds/'
+            + roundId
+            + '/members')
+        .push()
+
+    let newMember = {
+        fbid: fbid,
+        name: name,
+        photoUrl: photoUrl
+    }
+
+    newMemberRef.set(newMember)
+        .then(() => {
+            dispatch({
+                type: DB_SET_SUCCESS,
+                member: newMember
+            })
+        })
+        .catch(error => {
+            dispatch({
+                type: DB_SET_FAILURE,
                 error: error
             })
         })
@@ -194,6 +263,20 @@ export const setFriendsList = list => (dispatch, getState) => {
                 error: error
             })
         })
+}
+
+export const setProfile = profile => dispatch => {
+    dispatch({
+        type: DB_SET_REQUEST,
+        method: 'setProfile'
+    })
+
+    
+
+    dispatch({
+        type: DB_SET_SUCCESS,
+        profile: profile
+    })
 }
 
 // // since I can connect from multiple devices or browser tabs, we store each connection instance separately

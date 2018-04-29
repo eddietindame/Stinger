@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View, Dimensions, Platform } from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import LinearGradient from 'react-native-linear-gradient'
 import Swiper from 'react-native-swiper'
+import LinearGradient from 'react-native-linear-gradient'
 import { GRADIENTS } from '../modules/constants'
 import { slideIndexChanged } from '../actions/swiperActions'
 import LoginButton from '../containers/LoginButton'
 import Rounds from '../containers/Rounds'
 import Profile from '../containers/Profile'
+import Buzz from '../containers/Buzz'
 
 class Main extends Component {
     componentWillReceiveProps(nextProps) {
@@ -40,7 +41,7 @@ class Main extends Component {
                     }
                     loop={false}
                     showsPagination={false}
-                    index={0}
+                    index={2}
                     onIndexChanged={index => {
                         this.props.slideIndexChanged(index)
                     }}
@@ -48,30 +49,9 @@ class Main extends Component {
                         this._swiper = swiper
                     }}
                 >
-                    <Rounds user={this.props.auth.user} />
-                    <View style={styles.container}>
-                        <Text
-                            style={[
-                                { marginBottom: 20, fontSize: 24 },
-                                styles.lato
-                            ]}
-                        >
-                            Hello,{' '}
-                            {this.props.auth.user
-                                ? this.props.auth.user._user.displayName
-                                : 'user'}
-                        </Text>
-                        <Text
-                            style={[
-                                { marginBottom: 20, fontSize: 24 },
-                                styles.lato
-                            ]}
-                        >
-                            Middle slide
-                        </Text>
-                        <LoginButton />
-                    </View>
                     <Profile />
+                    <Buzz />
+                    <Rounds user={this.props.auth.user} />
                 </Swiper>
             </LinearGradient>
         )

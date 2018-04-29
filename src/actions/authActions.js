@@ -7,6 +7,7 @@ import {
     GraphRequestManager
 } from 'react-native-fbsdk'
 import SplashScreen from 'react-native-splash-screen'
+import _ from 'lodash'
 import {
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
@@ -75,21 +76,24 @@ export const login = () => dispatch => {
         })
         .then(user => {
             if (user) {
-                // If user does not exist in DB then add new entry
-                firebase
-                    .database()
-                    .ref('users/')
-                    .once('value', snapshot => {
-                        snapshot.hasChild(user.uid) ||
-                            dispatchActions(user)
-                    })
-
                 dispatch({
                     type: LOGIN_SUCCESS,
                     user: user
                 })
 
-                Actions.main('reset')
+                firebase
+                    .database()
+                    .ref('users/')
+                    .once('value', snapshot => {
+                        // If user does not exist in DB then add new entry
+                        if(!snapshot.hasChild(user.uid))
+                            dispatchActions(user)
+                    })
+                        .then(() => {
+                            console.log('poop')
+                            dispatch(setStatus('online'))
+                            Actions.main('reset')
+                        })
             }
         })
         .catch(error => {
@@ -183,6 +187,8 @@ export const checkAuth = () => dispatch => {
 }
 
 export const getFriendsList = () => dispatch => {
+    const users = firebase.ref('users').toJSON()
+
     const _responseInfoCallback = (error: ?Object, result: ?Object) => {
         if (error) {
             dispatch({
@@ -194,6 +200,14 @@ export const getFriendsList = () => dispatch => {
                 type: GRAPH_QUERY_SUCCESS,
                 result: result
             })
+
+            console.log(
+                // 'filtered:', _.filter(users, () => {
+                    
+                // })
+                'users', users
+            )
+
             dispatch(setFriendsList(result.data))
         }
     }

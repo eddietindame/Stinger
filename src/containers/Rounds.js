@@ -10,15 +10,16 @@ import {
 } from 'react-native'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { Actions } from 'react-native-router-flux'
 import firebase from 'react-native-firebase'
+import { addRound, removeRound } from '../actions/dbActions'
 import {
     IMAGES,
     ICONS,
     COLOURS
 } from '../modules/constants'
 import TeaRound from '../components/TeaRound'
-import { addRound, removeRound } from '../actions/dbActions'
-import { Actions } from 'react-native-router-flux';
+import Button from '../components/Button'
 
 const buttonRadius = 20
 
@@ -45,21 +46,7 @@ const styles = StyleSheet.create({
     addButton: {
         position: 'absolute',
         bottom: 90,
-        right: 15,
-        width: buttonRadius * 2,
-        height: buttonRadius * 2,
-        backgroundColor: COLOURS.WHITE,
-        borderRadius: buttonRadius,
-        shadowColor: '#000000',
-        shadowOffset: {
-            width: 0,
-            height: 6
-        },
-        shadowRadius: 4,
-        shadowOpacity: 0.2,
-        elevation: 6,
-        justifyContent: 'center',
-        alignItems: 'center'
+        right: 15
     }
 })
 
@@ -77,15 +64,6 @@ const NoRounds = () => (
         >Add one below...</Text>
     </View>
 )
-
-// const AddButton = () => (
-//     <TouchableOpacity
-//         style={ styles.addButton }
-//         onPress={ this.props.onPress }
-//     >
-//         <Image source={ ICONS.PLUS } />
-//     </TouchableOpacity>
-// )
 
 class Rounds extends Component {
 
@@ -108,10 +86,10 @@ class Rounds extends Component {
         let items = []
         snap.forEach(child => {
           items.push({
-            // title: child.val().name,
-            // members: child.val().members,
-            // _key: child.key,
-            ...child
+            name: child.val().name,
+            members: child.val().members,
+            key: child.key
+            // ...child
           })
         })
 
@@ -152,15 +130,13 @@ class Rounds extends Component {
                     dataSource={ this.state.dataSource }
                     renderRow={ this._renderItem.bind(this) }
                 />
-                {/* <AddButton
-                    onPress={ this.addRound.bind(this) }
-                /> */}
-                <TouchableOpacity
+                <Button
                     style={ styles.addButton }
                     onPress={ this.addRound.bind(this) }
-                >
-                    <Image source={ ICONS.PLUS } />
-                </TouchableOpacity>
+                    radius={ 20 }
+                    colour='white'
+                    icon={ ICONS.PLUS }
+                />
             </View>
         )
     }

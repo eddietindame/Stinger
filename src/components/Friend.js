@@ -7,7 +7,6 @@ import {
     TouchableHighlight
 } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
-import { keys } from 'lodash'
 import {
     GRADIENTS,
     ICONS,
@@ -33,7 +32,6 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         justifyContent: 'center',
         alignItems: 'center'
-
     },
     textContainer: {
         flex: 1,
@@ -48,29 +46,39 @@ const styles = StyleSheet.create({
 
 export default class TeaRound extends Component {
 
-    componentDidMount() {
-        console.log(this.props.item)
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            selected: false
+        }
+    }
+
+    onPress() {
+        this.setState({
+            selected: !this.state.selected
+        })
+
+        this.props.onPress()
     }
 
     render() {
-        let members = keys(this.props.item.members).length < 1
-            ? 1
-            : keys(this.props.item.members).length
         return (
             <TouchableHighlight
-                onPress={ () => this.props.onPress(this.props.item.key) }
+                onPress={ this.onPress.bind(this) }
                 style={ styles.container }
             >
                 <LinearGradient
-                    colors={ GRADIENTS.DARK }
+                    colors={ this.state.selected ? GRADIENTS.FACEBOOK_BLUE : GRADIENTS.DARK }
                     style={ styles.inner }
                 >
-                    <View style={ styles.image }>
-                        <Image source={ ICONS.GROUP } />
-                    </View>
+                    <Image
+                        source={{ uri: this.props.item.photoUrl }}
+                        style={ styles.image }
+                    />
                     <View style={ styles.textContainer } >
                         <Text style={ styles.text }>{ this.props.item.name }</Text>
-                        <Text style={ styles.text }>{ `${members} Member${members !== 1 ? 's' : ''}` }</Text>
+                        <Text style={ styles.text }>{ this.props.item.fbid }</Text>
                         <Text style={[ styles.text, { fontSize: 18 } ]}>Id: { this.props.item.key }</Text>
                     </View>
                 </LinearGradient>
