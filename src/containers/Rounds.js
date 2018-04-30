@@ -12,6 +12,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
 import firebase from 'react-native-firebase'
+import { keys } from 'lodash'
 import { addRound, removeRound } from '../actions/dbActions'
 import {
     IMAGES,
@@ -79,22 +80,30 @@ class Rounds extends Component {
     }
 
     listenForItems(itemsRef) {
-      itemsRef.on('value', snap => {
-        // get children as an array
-        let items = []
-        snap.forEach(child => {
-          items.push({
-            name: child.val().name,
-            members: child.val().members,
-            key: child.key
-          })
-        })
+        itemsRef.on('value', snap => {
+            const rounds = {}
+            snap.forEach(child => {
+                firebase.database()
+                    .ref(`rounds/${child.key}`)
+                    .on('value', innersnap => {
+                        const { name, members } = innersnap.val()
 
-        this.setState({
-            hasRows: items.length === 0 ? false : true,
-            dataSource: this.state.dataSource.cloneWithRows(items)
+                        rounds[child.key] = {
+                            name: name,
+                            members: keys(members).length,
+                            key: child.key
+                        }
+
+                        const items = keys(rounds).map((key) => rounds[key])
+
+                        this.setState({
+                            hasRounds: items.length === 0 ? false : true,
+                            dataSource: this.state.dataSource.cloneWithRows(items)
+                        })
+                        console.log('items', items)
+                    })
+            })
         })
-      })
     }
 
     _renderItem(item) {

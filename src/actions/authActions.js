@@ -195,14 +195,6 @@ export const getFriendsList = () => dispatch => {
                 type: GRAPH_QUERY_SUCCESS,
                 result: result
             })
-
-            console.log(
-                // 'filtered:', _.filter(users, () => {
-                    
-                // })
-                'users', users
-            )
-
             dispatch(setFriendsList(result.data))
         }
     }

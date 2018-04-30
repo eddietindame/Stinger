@@ -83,70 +83,47 @@ export const deleteUser = () => (dispatch, getState) => {
 }
 
 export const addRound = () => (dispatch, getState) => {
+    const { uid, displayName } = getState().authentication.user._user
+    const { fbid } = getState().db
+
     dispatch({
         type: DB_SET_REQUEST,
-        method: addRound
+        method: 'addRound'
     })
 
     const newRoundGlobalRef = firebase.database()
         .ref('rounds')
         .push()
 
-    const newRoundUserRef = firebase.database()
-        .ref('users/'
-            + getState().authentication.user._user.uid
-            + '/rounds/')
-        .push()
-
     const newRound = {
         id: newRoundGlobalRef.key,
         name: 'New round',
-        members: [{
-            fbid: getState().db.fbid,
-            name: getState().authentication.user._user.displayName,
-            photoUrl: getState().db.photoURL,
+        admin: {
+            uid:  uid,
+            fbid: fbid,
+            name: displayName,
             admin: true
-        }]
+        }
     }
-
-    firebase.database()
-        .ref('users/'
-            + getState().authentication.user._user.uid
-            + '/rounds/'
-            + newRoundGlobalRef.key)
-        .set(true)
 
     newRoundGlobalRef.set({
         name: newRound.name,
-        members: []
+        members: {
+            [uid]: newRound.admin
+        }
     })
         .then(() => {
-            // const newRoundMembersRef = firebase.database()
-            //     .ref('users/'
-            //         + getState().authentication.user._user.uid
-            //         + '/rounds/'
-            //         + newRoundGlobalRef.key
-            //         + '/members/')
-            //     .push()
-            const newRoundMembersRef = firebase.database()
-                .ref('rounds/'
-                    + newRoundGlobalRef.key
-                    + '/members/'
-                    + getState().authentication.user._user.uid)
-
-            newRoundMembersRef.set(newRound.members[0])
-                .then(() => {
-                    dispatch({
-                        type: DB_SET_SUCCESS,
-                        rounds: newRound
-                    })
-                })
-                .catch(error => {
-                    dispatch({
-                        type: DB_SET_FAILURE,
-                        error: error
-                    })
-                })
+            dispatch({
+                type: DB_SET_SUCCESS,
+                rounds: newRound
+            })
+            dispatch(updateUserWithNewRound(uid, newRoundGlobalRef.key))
+        })
+        .catch(error => {
+            dispatch({
+                type: DB_SET_FAILURE,
+                error: error
+            })
         })
 }
 
@@ -208,7 +185,7 @@ export const addMember = (roundId, fbid) => (dispatch, getState) => {
         .ref('users/')
         .once('value', snapshot => {
             friend = filter(snapshot.val(), ['fbid', fbid])[0]
-            console.log('search', friend)
+            // console.log('search', friend)
         })
             .then(() => {
                 newMemberRef = firebase
@@ -279,11 +256,10 @@ export const updateUserWithNewRound = (uid, roundId) => dispatch => {
         .database()
         .ref('/users/'
             + uid
-            + '/rounds/')
+            + '/rounds/'
+            + roundId)
 
-    newMemberRef.set({
-        [roundId]: true
-    })
+    newMemberRef.set(true)
         .then(() => {
             dispatch({
                 type: DB_SET_SUCCESS,

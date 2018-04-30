@@ -48,14 +48,9 @@ const styles = StyleSheet.create({
 
 export default class TeaRound extends Component {
 
-    componentDidMount() {
-        console.log(this.props.item)
-    }
-
     render() {
-        let members = keys(this.props.item.members).length < 1
-            ? 1
-            : keys(this.props.item.members).length
+        const { members } = this.props.item
+
         return (
             <TouchableHighlight
                 onPress={ () => this.props.onPress(this.props.item.key) }
