@@ -13,7 +13,7 @@ import { connect } from 'react-redux'
 import { Actions } from 'react-native-router-flux'
 import firebase from 'react-native-firebase'
 import LinearGradient from 'react-native-linear-gradient'
-import { removeMember } from '../actions/dbActions'
+import { removeMember, settleRound } from '../actions/dbActions'
 import {
     IMAGES,
     ICONS,
@@ -49,6 +49,11 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 15,
         right: 15
+    },
+    settleButton: {
+        position: 'absolute',
+        bottom: 15,
+        // right: 15
     }
 })
 
@@ -143,6 +148,13 @@ class Round extends Component {
                         colour='white'
                         icon={ ICONS.PLUS }
                     />
+                    <Button
+                        style={ styles.settleButton }
+                        onPress={() => { this.props.settleRound(this.props.data) }}
+                        radius={ 20 }
+                        colour='white'
+                        icon={ ICONS.GROUP }
+                    />
                 </LinearGradient>
         )
     }
@@ -156,7 +168,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        removeMember: removeMember
+        removeMember: removeMember,
+        settleRound: settleRound
     }, dispatch)
 }
 

@@ -8,7 +8,7 @@ import {
     DB_REMOVE_FAILURE,
     DB_WIPE_SUCCESS
 } from '../modules/constants'
-import { filter } from 'lodash'
+import { keys, filter, sample } from 'lodash'
 
 export const writeUserData = ({ displayName, email, photoURL, uid }, fbid) => async dispatch => {
     dispatch({
@@ -367,6 +367,78 @@ export const setProfile = profile => dispatch => {
         type: DB_SET_SUCCESS,
         profile: profile
     })
+}
+
+export const settleRound = roundId => dispatch => {
+    const roundsRef = firebase.database()
+        .ref('rounds/' + roundId)
+
+    function selectMember(members, lastRoundMaker) {
+        const roundMaker = sample(members)
+
+        if (roundMaker === lastRoundMaker)
+            return selectMember(members, lastRoundMaker)
+
+        return roundMaker
+    }
+
+    dispatch({
+        type: DB_SET_REQUEST,
+        method: 'settleRound'
+    })
+
+    roundsRef.once('value', snap => {
+        const members = keys(snap.val().members)
+        let roundMaker, lastRoundMaker
+
+        if (snap.hasChild('roundMaker')) {
+            lastRoundMaker = snap.val().roundMaker
+            roundMaker = selectMember(members, lastRoundMaker)
+            dispatch(setLastRoundMaker(roundId, lastRoundMaker))
+        } else {
+            roundMaker = selectMember(members, null)
+        }
+
+        roundsRef.update({
+            roundMaker: roundMaker
+        })
+            .then(() => {
+                dispatch({
+                    type: DB_SET_SUCCESS,
+                    roundMaker: roundMaker
+                })
+            })
+            .catch(error => {
+                dispatch({
+                    type: DB_SET_FAILURE
+                })
+            })
+    })
+}
+
+export const setLastRoundMaker = (roundId, uid) => dispatch => {
+    const roundsRef = firebase.database()
+        .ref('rounds/' + roundId)
+
+    dispatch({
+        type: DB_SET_REQUEST,
+        method: 'setLastRoundMaker'
+    })
+
+    roundsRef.update({
+        lastRoundMaker: uid
+    })
+        .then(() => {
+            dispatch({
+                type: DB_SET_SUCCESS,
+                lastRoundMaker: uid
+            })
+        })
+        .catch(error => {
+            dispatch({
+                type: DB_SET_FAILURE
+            })
+        })
 }
 
 // // since I can connect from multiple devices or browser tabs, we store each connection instance separately

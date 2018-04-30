@@ -33,12 +33,12 @@ export const IMAGES = {
 }
 
 export const ICONS = {
-    BUZZ:  require('../img/buzz.png'),
-    PLUS:  require('../img/ion-ios-plus-empty.png'),
-    OPTIONS:  require('../img/options.png'),
+    BUZZ: require('../img/buzz.png'),
+    PLUS: require('../img/ion-ios-plus-empty.png'),
+    OPTIONS: require('../img/options.png'),
     GROUP: require('../img/group.png'),
     GROUP_OUTLINE: require('../img/ion-ios-people-outline.png'),
-    USER_OUTLINE:  require('../img/user-icon.png')
+    USER_OUTLINE: require('../img/user-icon.png')
 }
 
 export const COLOURS = {
